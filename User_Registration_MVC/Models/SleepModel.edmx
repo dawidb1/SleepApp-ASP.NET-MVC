@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SleepAppV2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sleep">
+          <Key>
+            <PropertyRef Name="SleepId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SleepId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartSleep" Type="smalldatetime" Nullable="false" />
+          <Property Name="EndSleep" Type="smalldatetime" Nullable="false" />
+          <Property Name="MorningRating" Type="tinyint" />
+          <Property Name="EveningRating" Type="tinyint" />
+          <Property Name="Note" Type="text" />
+          <Property Name="AmountOfSleep" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserActivation">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Sleep_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Sleep" Type="Self.Sleep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Sleep">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Insert_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Validate_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="SleepAppV2ModelStoreContainer">
+          <EntitySet Name="Sleep" EntityType="Self.Sleep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserActivation" EntityType="Self.UserActivation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Sleep_Users" Association="Self.FK_Sleep_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Sleep" EntitySet="Sleep" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SleepAppV2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Sleep">
+          <Key>
+            <PropertyRef Name="SleepId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SleepId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartSleep" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndSleep" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MorningRating" Type="Byte" />
+          <Property Name="EveningRating" Type="Byte" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AmountOfSleep" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Sleep_Users" FromRole="Sleep" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserActivation">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Sleep" Relationship="Self.FK_Sleep_Users" FromRole="Users" ToRole="Sleep" />
+        </EntityType>
+        <Association Name="FK_Sleep_Users">
+          <End Role="Users" Type="SleepAppV2Model.User" Multiplicity="1" />
+          <End Role="Sleep" Type="Self.Sleep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Sleep">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SleepAppV2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sleep" EntityType="Self.Sleep" />
+          <EntitySet Name="UserActivation" EntityType="Self.UserActivation" />
+          <EntitySet Name="Users" EntityType="SleepAppV2Model.User" />
+          <AssociationSet Name="FK_Sleep_Users" Association="Self.FK_Sleep_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Sleep" EntitySet="Sleep" />
+          </AssociationSet>
+          <FunctionImport Name="Insert_User" ReturnType="Collection(Int32)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Validate_User" ReturnType="Collection(Int32)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SleepAppV2ModelStoreContainer" CdmEntityContainer="SleepAppV2Entities">
+          <EntitySetMapping Name="Sleep">
+            <EntityTypeMapping TypeName="SleepAppV2Model.Sleep">
+              <MappingFragment StoreEntitySet="Sleep">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SleepId" ColumnName="SleepId" />
+                <ScalarProperty Name="StartSleep" ColumnName="StartSleep" />
+                <ScalarProperty Name="EndSleep" ColumnName="EndSleep" />
+                <ScalarProperty Name="MorningRating" ColumnName="MorningRating" />
+                <ScalarProperty Name="EveningRating" ColumnName="EveningRating" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="AmountOfSleep" ColumnName="AmountOfSleep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserActivation">
+            <EntityTypeMapping TypeName="SleepAppV2Model.UserActivation">
+              <MappingFragment StoreEntitySet="UserActivation">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SleepAppV2Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="SleepAppV2Model.User">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="SleepAppV2Model.Store.Insert_User">
+                  <ScalarProperty Name="Email" ParameterName="Email" />
+                  <ScalarProperty Name="Password" ParameterName="Password" />
+                  <ScalarProperty Name="Username" ParameterName="Username" />
+                  <ResultBinding Name="UserId" ColumnName="UserId" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Insert_User" FunctionName="SleepAppV2Model.Store.Insert_User" />
+          <FunctionImportMapping FunctionImportName="Validate_User" FunctionName="SleepAppV2Model.Store.Validate_User" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
