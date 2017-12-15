@@ -18,15 +18,19 @@
     </style>
 </head>
 <body>
-<div>
-    Welcome
-    <b>@HttpContext.Current.User.Identity.Name</b>
-    <br/>
-    <br/>
-    @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
-    {
-        <a href="javascript:;" onclick="document.forms[0].submit();">Logout</a>
+    @{
+        Html.RenderPartial("_HeaderNavBar");
     }
-</div>
+
+    <div>
+        Welcome
+        <b>@HttpContext.Current.User.Identity.Name</b>
+        <br />
+        <br />
+        @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
+        {
+            <a href="javascript:;" onclick="document.forms[0].submit();">Logout</a>
+        }
+    </div>
 </body>
 </html>

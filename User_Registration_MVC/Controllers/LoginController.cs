@@ -112,7 +112,7 @@ namespace User_Registration_MVC.Controllers
             }
             ViewBag.Message = message;
 
-            return View(user);
+            return PartialView("_HeaderNavBar", user);
         }
     }
 }

@@ -1,4 +1,14 @@
-﻿.container {
+﻿.href {
+    font-size: 20px;
+}
+.mom {
+    display: table;
+}
+.child {
+    display: table-cell;
+}
+
+.container {
     margin: 0 auto;
 }
 nav {
@@ -46,6 +56,7 @@ nav .container .login-button {
     width: 350px;
     color: black;
     display: none; }
+
 .login-form .container {
     padding: 0 0.5em; }
 .login-form h4 {
@@ -59,6 +70,7 @@ nav .container .login-button {
     margin: 0.5em 0;
     font-size: 1em;
     padding: 0 0.5em; }
+
 .login-form .sign-in-button {
     background-color: #303030;
     color: #C3FF00;
