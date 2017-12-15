@@ -31,23 +31,6 @@ namespace User_Registration_MVC.Models
         public virtual DbSet<UserActivation> UserActivation { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
-        public virtual ObjectResult<Nullable<int>> Insert_User(string username, string password, string email)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("Username", username) :
-                new ObjectParameter("Username", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("Email", email) :
-                new ObjectParameter("Email", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Insert_User", usernameParameter, passwordParameter, emailParameter);
-        }
-    
         public virtual ObjectResult<Nullable<int>> Validate_User(string username, string password)
         {
             var usernameParameter = username != null ?

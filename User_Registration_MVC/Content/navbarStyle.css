@@ -44,12 +44,14 @@ nav .container .login-button {
     margin: 10px;
     padding: 20px;
     width: 350px;
-    color: #EFEFEF;
+    color: black;
     display: none; }
 .login-form .container {
     padding: 0 0.5em; }
 .login-form h4 {
-    font-weight: 400; }
+    font-weight: 400;
+    color: white;
+}
 .login-form input {
     width: calc(100% - 1em);
     border: none;
@@ -72,5 +74,5 @@ nav .container .login-button {
     user-select: none;
     cursor: pointer; }
 .username {
-    color: black;
+    color: white;
 }

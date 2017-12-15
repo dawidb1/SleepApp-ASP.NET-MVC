@@ -123,11 +123,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Sleep" EntitySet="Sleep" />
           </AssociationSet>
-          <FunctionImport Name="Insert_User" ReturnType="Collection(Int32)">
-            <Parameter Name="Username" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="Validate_User" ReturnType="Collection(Int32)">
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
@@ -176,18 +171,7 @@
                 <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
               </MappingFragment>
             </EntityTypeMapping>
-            <EntityTypeMapping TypeName="SleepAppV2Model.User">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="SleepAppV2Model.Store.Insert_User">
-                  <ScalarProperty Name="Email" ParameterName="Email" />
-                  <ScalarProperty Name="Password" ParameterName="Password" />
-                  <ScalarProperty Name="Username" ParameterName="Username" />
-                  <ResultBinding Name="UserId" ColumnName="UserId" />
-                </InsertFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Insert_User" FunctionName="SleepAppV2Model.Store.Insert_User" />
           <FunctionImportMapping FunctionImportName="Validate_User" FunctionName="SleepAppV2Model.Store.Validate_User" />
           <FunctionImportMapping FunctionImportName="ValidateUser" FunctionName="SleepAppV2Model.Store.Validate_User" />
         </EntityContainerMapping>

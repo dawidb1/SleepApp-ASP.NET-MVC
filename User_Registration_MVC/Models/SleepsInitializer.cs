@@ -11,7 +11,7 @@ namespace User_Registration_MVC.Models
         {
             var sleeps = new List<Sleep>
             {
-                new Sleep{Note = "przykladowa notatka1", MorningRating = 5, EveningRating=6, StartSleep = (DateTime.Now.AddDays(-8)), EndSleep = DateTime.Now.AddHours(6).AddDays(-8)},
+                new Sleep{SleepId = 1,Note = "przykladowa notatka1", MorningRating = 5, EveningRating=6, StartSleep = (DateTime.Now.AddDays(-8)), EndSleep = DateTime.Now.AddHours(6).AddDays(-8)},
                 new Sleep{Note = "przykladowa notatka2", MorningRating = 5, EveningRating=6, StartSleep = (DateTime.Now.AddDays(-7)), EndSleep = DateTime.Now.AddHours(5).AddDays(-7)},
                 new Sleep{Note = "przykladowa notatka9", MorningRating = 5, EveningRating=6, StartSleep = (DateTime.Now.AddDays(-6)), EndSleep = DateTime.Now.AddHours(4).AddDays(-6)},
                 new Sleep{Note = "przykladowa notatka3", MorningRating = 5, EveningRating=6, StartSleep = (DateTime.Now.AddDays(-5)), EndSleep = DateTime.Now.AddHours(4.5).AddDays(-5)},

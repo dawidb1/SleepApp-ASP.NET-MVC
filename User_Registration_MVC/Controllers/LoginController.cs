@@ -45,7 +45,7 @@ namespace User_Registration_MVC.Controllers
             }
 
             ViewBag.Message = message;
-            return View(user);
+            return PartialView("_HeaderNavBar",user);
         }
 
         [HttpPost]
@@ -67,16 +67,35 @@ namespace User_Registration_MVC.Controllers
         {
             var db = new SleepAppV2Entities();
             user.CreatedDate = DateTime.Now;
-            db.Users.Add(user);
-            db.SaveChanges();
 
-            var SleepList = SleepsInitializer.SleepsInitialize();
-            foreach (Sleep sleep in SleepList)
+            var usernameTaken = db.Users.Any(u => u.Username == user.Username);
+            var emailTaken = db.Users.Any(u => u.Email == user.Email);
+
+            if (usernameTaken)
             {
-                sleep.UserId = user.UserId;
-                db.Sleep.Add(sleep);
+                user.UserId = -1;
             }
-            db.SaveChanges();
+            else if (emailTaken)
+            {
+                user.UserId = -2;
+            }
+            else
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+
+            if (user.UserId>0)
+            {
+                var SleepList = SleepsInitializer.SleepsInitialize();
+                foreach (Sleep sleep in SleepList)
+                {
+                    //tutaj getOtherData()
+                    db.Users.First(x => x.UserId == user.UserId).Sleep.Add(sleep);
+                }
+
+                db.SaveChanges();
+            }
 
             string message = string.Empty;
             switch (user.UserId)

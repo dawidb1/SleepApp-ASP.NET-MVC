@@ -40,7 +40,6 @@ namespace User_Registration_MVC.Models
         public System.DateTime CreatedDate { get; set; }
 
         public Nullable<System.DateTime> LastLoginDate { get; set; }
-
         public bool RememberMe { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

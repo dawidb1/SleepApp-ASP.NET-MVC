@@ -104,9 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SleepAppV2.mdf" />
-    <Content Include="App_Data\SleepAppV2_log.ldf">
-      <DependentUpon>SleepAppV2.mdf</DependentUpon>
-    </Content>
+    <Content Include="App_Data\SleepAppV2_log.ldf" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

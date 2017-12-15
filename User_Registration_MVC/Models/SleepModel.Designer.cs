@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\OneDrive\Documents\STUDIA Onedrive\SEMESTR5\S5 Moje\OI Projekt\Logowanie v2\SleepApp2\User_Registration_MVC\Models\SleepModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\dawid\source\repos\PSO\SleepApp2\User_Registration_MVC\Models\SleepModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
