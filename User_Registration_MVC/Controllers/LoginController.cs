@@ -69,6 +69,15 @@ namespace User_Registration_MVC.Controllers
             user.CreatedDate = DateTime.Now;
             db.Users.Add(user);
             db.SaveChanges();
+
+            var SleepList = SleepsInitializer.SleepsInitialize();
+            foreach (Sleep sleep in SleepList)
+            {
+                sleep.UserId = user.UserId;
+                db.Sleep.Add(sleep);
+            }
+            db.SaveChanges();
+
             string message = string.Empty;
             switch (user.UserId)
             {

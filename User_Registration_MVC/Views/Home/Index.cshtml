@@ -11,9 +11,12 @@
     <title>Index</title>
 </head>
 <body>
-<div> 
+@{
+    Html.RenderPartial("_HeaderNavBar");   
+}
+<div>
 </div>
-    @Html.ActionLink("Sign Up","Rejestration","Login")
-    @Html.ActionLink("Sign In","Login","Login")
+@Html.ActionLink("Sign Up", "Rejestration", "Login")
+@Html.ActionLink("Sign In", "Login", "Login")
 </body>
 </html>
