@@ -132,6 +132,10 @@
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ValidateUser" ReturnType="Collection(Int32)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -185,6 +189,7 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Insert_User" FunctionName="SleepAppV2Model.Store.Insert_User" />
           <FunctionImportMapping FunctionImportName="Validate_User" FunctionName="SleepAppV2Model.Store.Validate_User" />
+          <FunctionImportMapping FunctionImportName="ValidateUser" FunctionName="SleepAppV2Model.Store.Validate_User" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

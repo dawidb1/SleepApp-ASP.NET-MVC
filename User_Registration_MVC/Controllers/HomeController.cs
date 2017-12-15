@@ -23,6 +23,5 @@ namespace User_Registration_MVC.Controllers
         //    return View();
         //}
 
-        
     }
 }
