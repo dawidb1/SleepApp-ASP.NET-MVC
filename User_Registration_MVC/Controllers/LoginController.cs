@@ -17,11 +17,6 @@ namespace User_Registration_MVC.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult MyProfile()
-        {
-            return View();
-        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -40,8 +35,16 @@ namespace User_Registration_MVC.Controllers
                     message = "Account has not been activated.";
                     break;
                 default:
+                    Session["SesionUserID"] = user.UserId;
                     FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
-                    return RedirectToAction("MyProfile");
+
+                    string authId = Guid.NewGuid().ToString();
+                    Session["AuthID"] = authId;
+                    var cookie = new HttpCookie("AuthID");
+                    cookie.Value = authId;
+                    Response.Cookies.Add(cookie);
+
+                    return PartialView("_HeaderNavBar");
             }
 
             ViewBag.Message = message;

@@ -44,5 +44,7 @@ namespace User_Registration_MVC.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sleep> Sleep { get; set; }
+
+        public string SetSessionValue { get; set; }
     }
 }

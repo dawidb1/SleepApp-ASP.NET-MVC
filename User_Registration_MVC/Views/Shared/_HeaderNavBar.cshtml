@@ -20,6 +20,10 @@
                     <li><a href="#">Page 3</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    @if (Model.UserId == 0)
+                    {
+                             Html.RenderPartial("UnAuthNavbar");  
+                    }
                     <li id="sign-up-button"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li id="login-button"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
