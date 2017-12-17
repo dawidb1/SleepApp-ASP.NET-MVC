@@ -1,4 +1,5 @@
-﻿
+﻿@using User_Registration_MVC.Models
+@model User_Registration_MVC.Models.User
 @{
     Layout = null;
 }
@@ -11,12 +12,97 @@
     <title>Index</title>
 </head>
 <body>
-@{
-    Html.RenderPartial("_HeaderNavBar");   
-}
-<div>
-</div>
-@Html.ActionLink("Sign Up", "Rejestration", "Login")
-@Html.ActionLink("Sign In", "Login", "Login")
+    @{
+        Html.RenderPartial("_HeaderNavBar", Model);
+    }
+    @* Tutaj partialView by się przydał *@
+    @if (Model.UserId != 0)
+    {
+        
+            <h2>My Logs:</h2>
+
+            <h4>
+                @*@Html.ActionLink("Add sleep manually", "Create")*@
+            </h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().StartSleep.DayOfWeek)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().StartSleep)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().EndSleep)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().AmountOfSleep)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().MorningRating)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().EveningRating)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sleep.First().Note)
+                    </th>
+                    <th>properties</th>
+                </tr>
+        
+                @* Tutaj raczej sortowania potrzeba *@
+                @foreach (var sleep in Model.Sleep.Reverse())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => sleep.StartSleep.DayOfWeek)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sleep.StartSleep)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sleep.EndSleep)
+                        </td>
+                        <td>
+                            @{
+                                TimeSpan ts = TimeSpan.FromTicks(sleep.AmountOfSleep);
+                            }
+                            @Html.DisplayFor(modelItem => ts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sleep.MorningRating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sleep.EveningRating)
+                        </td>
+                        <td>
+                            <button id="Button1" type="button" onclick="func('@sleep.Note')">Read</button>
+
+                            @* @Html.DisplayFor(modelItem => item.note)*@
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.SleepID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.SleepID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.SleepID })*@
+                        </td>
+                    </tr>
+                }
+            </table>
+            <script>
+                function func(tekst) {
+                    alert(tekst);
+                }
+            </script>   
+    }
+    @if (Model.UserId == 0)
+    {
+        <h2>Witaj w aplikacji, która pomoże Ci zawładnąć nad twoim snem!</h2>
+        <h3>Zaloguj się aby kontynuować.</h3>
+    }
+    <div>
+    </div>
+    @*@Html.ActionLink("Sign Up", "Rejestration", "Login")
+    @Html.ActionLink("Sign In", "Login", "Login")*@
+
 </body>
 </html>

@@ -17,12 +17,6 @@ namespace User_Registration_MVC.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult MyProfile()
-        {
-            return View();
-        }
-
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(User user)
@@ -41,11 +35,13 @@ namespace User_Registration_MVC.Controllers
                     break;
                 default:
                     FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
-                    return RedirectToAction("MyProfile");
+                    TempData["UserId"] = userId;
+                    return RedirectToAction("Index", "Home", new {id = userId});
             }
 
             ViewBag.Message = message;
-            return PartialView("_HeaderNavBar",user);
+            //return RedirectToAction("Index", "Home");
+            return View("../Home/Index", user); //idzie do /login/login
         }
 
         [HttpPost]
@@ -55,7 +51,6 @@ namespace User_Registration_MVC.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
-
 
         [HttpGet]
         public ActionResult Rejestration()
@@ -90,7 +85,7 @@ namespace User_Registration_MVC.Controllers
                 var SleepList = SleepsInitializer.SleepsInitialize();
                 foreach (Sleep sleep in SleepList)
                 {
-                    //tutaj getOtherData()
+                    sleep.InitOtherData();
                     db.Users.First(x => x.UserId == user.UserId).Sleep.Add(sleep);
                 }
 

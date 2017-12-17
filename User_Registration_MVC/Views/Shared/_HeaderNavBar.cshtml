@@ -1,140 +1,161 @@
-﻿
-@model User_Registration_MVC.Models.User
+﻿@model User_Registration_MVC.Models.User
 <body>
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">WebSiteName</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="#">Page 3</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li id="sign-up-button"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li id="login-button"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Sleep Log</a>
         </div>
-    </nav>
-
-    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
-    {
-        <div id="login-form" class="login-form">
-            <div>
-                <form>
-                    <h4>Username</h4>
-                    @Html.TextBoxFor(u => u.Username)
-                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "error" })
-
-                    <h4>Password</h4>
-                    @Html.PasswordFor(u => u.Password)
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
-                    <div style="display: inline-block">
-                        <div>@Html.CheckBoxFor(m => m.RememberMe)</div>
-                        <p style="color: white"> Remember me </p>
-
-                    </div>
-                    <input class="sign-in-button" type="submit" value="Sign In" />
-                    <div class="mom"><h4 class="child">New here? </h4><a class="href" id="sign-up-href">Sign Up</a></div>
-                </form>
-            </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">Your logs</a>
+                </li>
+                <li>
+                    <a href="#">Stats</a>
+                </li>
+                <li>
+                    <a href="#">Go sleep</a>
+                </li>
+                <li>
+                    <a href="#">Add manually</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (Model.UserId == 0)
+                {
+                    <li id="sign-up-button">
+                        <a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                    <li id="login-button">
+                        <a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                }
+                @if (Model.UserId != 0)
+                {
+                    <li><a>Welcome @Model.Username</a></li>
+                    <li> <a href="~/Home/Index">Logout</a></li>
+                }
+            </ul>
         </div>
-    }
-    
+    </div>
+</nav>
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post))
+{
+    <div id="login-form" class="login-form">
+        <div>
+            <form>
+                <h4>Username</h4>
+                @Html.TextBoxFor(u => u.Username)
+                @Html.ValidationMessageFor(m => m.Username, "", new {@class = "error"})
+
+                <h4>Password</h4>
+                @Html.PasswordFor(u => u.Password)
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
+                <div style="display: inline-block">
+                    <div>@Html.CheckBoxFor(m => m.RememberMe)</div>
+                    <p style="color: white"> Remember me </p>
+
+                </div>
+                <input class="sign-in-button" type="submit" value="Sign In"/>
+                <div class="mom">
+                    <h4 class="child">New here? </h4><a class="href" id="sign-up-href">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
 
 @using (Html.BeginForm("Rejestration", "Login", FormMethod.Post))
-    {
-        
-        <div id="sign-up-form" class="login-form">
-            <div>
-                <form>
-                    <h4>Username</h4>
-                    @Html.TextBoxFor(u => u.Username)
-                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "error" })
+{
+    <div id="sign-up-form" class="login-form">
+        <div>
+            <form>
+                <h4>Username</h4>
+                @Html.TextBoxFor(u => u.Username)
+                @Html.ValidationMessageFor(m => m.Username, "", new {@class = "error"})
 
 
-                    <h4>Password</h4>
-                    @Html.PasswordFor(u => u.Password)
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
+                <h4>Password</h4>
+                @Html.PasswordFor(u => u.Password)
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
 
-                    <h4>Confirm Password</h4>
-                    @Html.PasswordFor(u => u.Password)
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
+                <h4>Confirm Password</h4>
+                @Html.PasswordFor(u => u.ConfirmPassword)
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
 
-                    <h4>Email</h4>
-                    @Html.TextBoxFor(u => u.Email)
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+                <h4>Email</h4>
+                @Html.TextBoxFor(u => u.Email)
+                @Html.ValidationMessageFor(m => m.Email, "", new {@class = "error"})
 
-                    <input class="sign-in-button" type="submit" value="Sign Up" />
-                    <div class="mom">
-                        <h4 class="child">Already have an account? </h4> <a class="href" id="login-href"> Sign in</a>
-                    </div>
-                </form>
-            </div>
+                <input class="sign-in-button" type="submit" value="Sign Up"/>
+                <div class="mom">
+                    <h4 class="child">Already have an account? </h4> <a class="href" id="login-href"> Sign in</a>
+                </div>
+            </form>
         </div>
-    
-    }
+    </div>
+}
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/Content/navbarStyle.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="~/Content/navbarStyle.css" rel="stylesheet"/>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/jquery-3.2.1.min.js"></script>
 <style>
-    .error {
-        color: crimson;
-    }
+    .error { color: crimson; }
 </style>
-    
+
 @if (@ViewBag.Message != null)
 {
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $('#login-form').show();
             alert("@ViewBag.Message");
         });
     </script>
 }
-    <script type="text/javascript" language="javascript">
-        $(document).ready(() => {
+<script type="text/javascript" language="javascript">
+    $(document).ready(() => {
 
-            $('#login-button').click(function () {
-                toggleSignIn();
-            });
-            $('#login-href').on('click',function () {
-                toggleSignIn();
-            });
-
-            $('#sign-up-button').click(function() {
-                toggleSignUp();
-            });
-            $('#sign-up-href').on('click',function() {
-                toggleSignUp();
-            });
+        $('#login-button').click(function() {
+            toggleSignIn();
         });
-        function toggleSignIn() {
-            $('#login-form').toggle();
-            if (!$('#sign-up-form').isCollapsed) {
-                $('#sign-up-form').hide();
-            }
-        }
-        function toggleSignUp() {
-            $('#sign-up-form').toggle();
-            if (!$('#login-form').isCollapsed) {
-                $('#login-form').hide();
-            }
-        }
+        $('#login-href').on('click',
+            function() {
+                toggleSignIn();
+            });
 
-    </script>
+        $('#sign-up-button').click(function() {
+            toggleSignUp();
+        });
+        $('#sign-up-href').on('click',
+            function() {
+                toggleSignUp();
+            });
+    });
+
+    function toggleSignIn() {
+        $('#login-form').toggle();
+        if (!$('#sign-up-form').isCollapsed) {
+            $('#sign-up-form').hide();
+        }
+    }
+
+    function toggleSignUp() {
+        $('#sign-up-form').toggle();
+        if (!$('#login-form').isCollapsed) {
+            $('#login-form').hide();
+        }
+    }
+
+</script>
 </body>

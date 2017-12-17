@@ -24,5 +24,10 @@ namespace User_Registration_MVC.Models
         public long AmountOfSleep { get; set; }
     
         public virtual User Users { get; set; }
+
+        public void InitOtherData()
+        {
+            this.AmountOfSleep = (this.EndSleep - this.StartSleep).Ticks;
+        }
     }
 }

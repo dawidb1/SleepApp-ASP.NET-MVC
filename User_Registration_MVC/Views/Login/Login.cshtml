@@ -86,13 +86,13 @@
             </tr>
         </table>
     }
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
     @if (@ViewBag.Message != null)
     {
         <script type="text/javascript">
             $(function () {
-                alert("@ViewBag.Message")
+                alert("@ViewBag.Message");
             });
         </script>
     }

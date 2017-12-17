@@ -9,19 +9,22 @@ namespace User_Registration_MVC.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Registration
+
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View();
+            User user;
+            if (id != null)
+            {
+                var db = new SleepAppV2Entities();
+                user = db.Users.First(u => u.UserId == id);
+            }
+            else
+            {
+                user = new User();
+            }
+            return View(user);
         }
-
-        //[HttpPost]
-        //public ActionResult Index()
-        //{
-
-        //    return View();
-        //}
 
     }
 }
