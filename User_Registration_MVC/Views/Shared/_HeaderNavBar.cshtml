@@ -17,7 +17,8 @@
                     <a href="#">Your logs</a>
                 </li>
                 <li>
-                    <a href="#">Stats</a>
+                    @*@Html.ActionLink("Stats", "Home/Stats", "Home",new{id=Model.UserId})*@
+                    @Html.ActionLink("Stats","Stats","Home")                   
                 </li>
                 <li>
                     <a href="#">Go sleep</a>
@@ -45,6 +46,10 @@
         </div>
     </div>
 </nav>
+@using (Html.BeginForm("Stats", "Home", FormMethod.Post))
+{
+    @Html.TextBoxFor(model=>model.UserId)
+}
 
 @using (Html.BeginForm("Login", "Login", FormMethod.Post))
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using User_Registration_MVC.Models;
+using User_Registration_MVC.Models.ViewModels;
 
 namespace User_Registration_MVC.Controllers
 {
@@ -26,5 +27,19 @@ namespace User_Registration_MVC.Controllers
             return View(user);
         }
 
+
+        [HttpGet]
+        public ActionResult Stats(int? id)
+        {
+            var db = new SleepAppV2Entities();
+
+            var sleeps = db.Sleep.Where(sleep => sleep.UserId == id);
+            List<ChartInfo> chartList = new List<ChartInfo>();
+            foreach (var item in sleeps)
+            {
+                chartList.Add(new ChartInfo(item.AmountOfSleep, item.StartSleep.Date));
+            }
+            return View(chartList);
+        }
     }
 }

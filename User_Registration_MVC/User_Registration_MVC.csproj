@@ -189,6 +189,7 @@
     <Compile Include="Models\UserActivation.cs">
       <DependentUpon>SleepModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\ChartInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
