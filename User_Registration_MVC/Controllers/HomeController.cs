@@ -12,34 +12,39 @@ namespace User_Registration_MVC.Controllers
     {
 
         [HttpGet]
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
-            User user;
+            int? id =(int?)Session["userId"];
+
             if (id != null)
             {
                 var db = new SleepAppV2Entities();
-                user = db.Users.First(u => u.UserId == id);
+                User user = db.Users.First(u => u.UserId == id);
+                return View(user);
             }
-            else
-            {
-                user = new User();
-            }
-            return View(user);
+
+            return View();
         }
 
 
         [HttpGet]
-        public ActionResult Stats(int? id)
+        public ActionResult Stats()
         {
             var db = new SleepAppV2Entities();
 
-            var sleeps = db.Sleep.Where(sleep => sleep.UserId == id);
-            List<ChartInfo> chartList = new List<ChartInfo>();
-            foreach (var item in sleeps)
+            int? userId = (int?)Session["userId"];
+            if (userId != null)
             {
-                chartList.Add(new ChartInfo(item.AmountOfSleep, item.StartSleep.Date));
+                var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
+      
+                List<ChartInfo> chartList = new List<ChartInfo>();
+                foreach (Sleep item in sleeps)
+                {
+                    chartList.Add(new ChartInfo(item.AmountOfSleep, item.StartSleep.Date));
+                }
+                return View(chartList);
             }
-            return View(chartList);
+            return RedirectToAction("Login", "Login");
         }
     }
 }

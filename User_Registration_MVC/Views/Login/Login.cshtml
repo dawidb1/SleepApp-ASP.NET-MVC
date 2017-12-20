@@ -54,7 +54,7 @@
                     @Html.TextBoxFor(m => m.Username)
                 </td>
                 <td>
-                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "error" })
+                    @Html.ValidationMessageFor(m => m.Username, "", new {@id="tbUser", @class = "error" })
                 </td>
             </tr>
             <tr>
@@ -75,6 +75,9 @@
                 <td>
                     @Html.CheckBoxFor(m => m.RememberMe)
                 </td>
+                <td>
+                    <input type="submit" id="btnTester" value="Test" />
+                </td>
                 <td></td>
             </tr>
             <tr>
@@ -93,6 +96,9 @@
         <script type="text/javascript">
             $(function () {
                 alert("@ViewBag.Message");
+            });
+            $('#btnTester').click(function() {
+                $('#tbUser').Text = "test";
             });
         </script>
     }

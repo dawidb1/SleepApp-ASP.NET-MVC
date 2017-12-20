@@ -35,28 +35,32 @@ namespace User_Registration_MVC.Controllers
                     break;
                 default:
                     FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
-                    TempData["UserId"] = userId;
-                    return RedirectToAction("Index", "Home", new {id = userId});
+                    Session["UserId"] = userId;
+                    Session["Username"] = user.Username;
+                    message = "Login succesful.";
+                    return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Message = message;
-            //return RedirectToAction("Index", "Home");
-            return View("../Home/Index", user); //idzie do /login/login
+            return RedirectToAction("Index", "Home");
+            //return View("../Home/Index", user); //idzie do /login/login
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpGet]
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
+            Session.Abandon();
+            Session.RemoveAll();
+            return View();
         }
+
 
         [HttpGet]
         public ActionResult Rejestration()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Rejestration(User user)
         {

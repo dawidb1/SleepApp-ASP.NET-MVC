@@ -16,7 +16,7 @@
         Html.RenderPartial("_HeaderNavBar", Model);
     }
     @* Tutaj partialView by się przydał *@
-    @if (Model.UserId != 0)
+    @if (Model != null)
     {
         
             <h2>My Logs:</h2>
@@ -94,7 +94,7 @@
                 }
             </script>   
     }
-    @if (Model.UserId == 0)
+    @if (Model == null)
     {
         <h2>Witaj w aplikacji, która pomoże Ci zawładnąć nad twoim snem!</h2>
         <h3>Zaloguj się aby kontynuować.</h3>

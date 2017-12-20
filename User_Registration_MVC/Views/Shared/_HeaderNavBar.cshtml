@@ -9,15 +9,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Sleep Log</a>
+            @*<a class="navbar-brand"></a>*@
+            @Html.ActionLink("Sleep Log", "Index", "Home",null,new {@class="navbar-brand"})
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="#">Your logs</a>
+                    @Html.ActionLink("Your logs", "Index","Home")  
                 </li>
                 <li>
-                    @*@Html.ActionLink("Stats", "Home/Stats", "Home",new{id=Model.UserId})*@
                     @Html.ActionLink("Stats","Stats","Home")                   
                 </li>
                 <li>
@@ -28,7 +28,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                @if (Model.UserId == 0)
+
+                @{
+                    var username = Session["username"];
+                }
+                @if (username == null)
                 {
                     <li id="sign-up-button">
                         <a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
@@ -37,19 +41,16 @@
                         <a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                     </li>
                 }
-                @if (Model.UserId != 0)
+                else
                 {
-                    <li><a>Welcome @Model.Username</a></li>
-                    <li> <a href="~/Home/Index">Logout</a></li>
+                    <li><a>Welcome @username</a></li>
+                    <li> @Html.ActionLink("Logout", "Logout", "Login")</li>    
                 }
             </ul>
         </div>
     </div>
 </nav>
-@using (Html.BeginForm("Stats", "Home", FormMethod.Post))
-{
-    @Html.TextBoxFor(model=>model.UserId)
-}
+
 
 @using (Html.BeginForm("Login", "Login", FormMethod.Post))
 {
@@ -68,6 +69,7 @@
                     <p style="color: white"> Remember me </p>
 
                 </div>
+                @*<input type="button" id="btnTester" value="Test" />*@
                 <input class="sign-in-button" type="submit" value="Sign In"/>
                 <div class="mom">
                     <h4 class="child">New here? </h4><a class="href" id="sign-up-href">Sign Up</a>
@@ -146,6 +148,9 @@
             function() {
                 toggleSignUp();
             });
+        $('#btnTester').click(function() {
+            $('#tbUser').Text = "test";
+        });
     });
 
     function toggleSignIn() {
@@ -161,6 +166,8 @@
             $('#login-form').hide();
         }
     }
+
+
 
 </script>
 </body>
