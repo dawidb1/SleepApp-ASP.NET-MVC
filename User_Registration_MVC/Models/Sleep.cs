@@ -14,20 +14,18 @@ namespace User_Registration_MVC.Models
     
     public partial class Sleep
     {
-        public int UserId { get; set; }
         public int SleepId { get; set; }
         public System.DateTime StartSleep { get; set; }
         public System.DateTime EndSleep { get; set; }
-        public Nullable<byte> MorningRating { get; set; }
-        public Nullable<byte> EveningRating { get; set; }
+        public Nullable<int> MorningRating { get; set; }
+        public Nullable<int> EveningRating { get; set; }
         public string Note { get; set; }
-        public long AmountOfSleep { get; set; }
+        public Nullable<System.TimeSpan> AmountOfSleep { get; set; }
+        public int UserId { get; set; }
+        public bool QuickSleep { get; set; }
     
-        public virtual User Users { get; set; }
+        public virtual User User { get; set; }
 
-        public void InitOtherData()
-        {
-            this.AmountOfSleep = (this.EndSleep - this.StartSleep).Ticks;
-        }
+
     }
 }

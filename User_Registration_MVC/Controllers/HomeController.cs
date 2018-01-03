@@ -14,12 +14,12 @@ namespace User_Registration_MVC.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            int? id =(int?)Session["userId"];
+            int? id = (int?)Session["userId"];
 
             if (id != null)
             {
-                var db = new SleepAppV2Entities();
-                User user = db.Users.First(u => u.UserId == id);
+                var db = new SleepLogAppEntities();
+                User user = db.User.First(u => u.UserId == id);
                 return View(user);
             }
 
@@ -30,13 +30,13 @@ namespace User_Registration_MVC.Controllers
         [HttpGet]
         public ActionResult Stats()
         {
-            var db = new SleepAppV2Entities();
+            var db = new SleepLogAppEntities();
 
             int? userId = (int?)Session["userId"];
             if (userId != null)
             {
                 var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
-      
+
                 List<ChartInfo> chartList = new List<ChartInfo>();
                 foreach (Sleep item in sleeps)
                 {
@@ -44,7 +44,7 @@ namespace User_Registration_MVC.Controllers
                 }
                 return View(chartList);
             }
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Home", "Index");
         }
     }
 }

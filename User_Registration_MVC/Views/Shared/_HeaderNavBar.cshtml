@@ -30,7 +30,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 @{
-                    var username = Session["username"];
+                    var username = Session["Username"];
                 }
                 @if (username == null)
                 {
@@ -80,7 +80,7 @@
 }
 
 
-@using (Html.BeginForm("Rejestration", "Login", FormMethod.Post))
+@using (Html.BeginForm("Registration", "Login", FormMethod.Post))
 {
     <div id="sign-up-form" class="login-form">
         <div>
@@ -140,7 +140,6 @@
             function() {
                 toggleSignIn();
             });
-
         $('#sign-up-button').click(function() {
             toggleSignUp();
         });
@@ -152,22 +151,17 @@
             $('#tbUser').Text = "test";
         });
     });
-
     function toggleSignIn() {
         $('#login-form').toggle();
         if (!$('#sign-up-form').isCollapsed) {
             $('#sign-up-form').hide();
         }
     }
-
     function toggleSignUp() {
         $('#sign-up-form').toggle();
         if (!$('#login-form').isCollapsed) {
             $('#login-form').hide();
         }
     }
-
-
-
 </script>
 </body>

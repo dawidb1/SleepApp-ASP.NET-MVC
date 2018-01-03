@@ -44,11 +44,11 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -103,8 +103,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\SleepAppV2.mdf" />
-    <Content Include="App_Data\SleepAppV2_log.ldf" />
+    <Content Include="App_Data\SleepLogApp2DB.mdf" />
+    <Content Include="App_Data\SleepLogApp2DB_log.ldf" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -113,13 +113,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\SleepModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SleepModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\SleepModel.edmx.diagram">
-      <DependentUpon>SleepModel.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -128,16 +121,23 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Models\SleepModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SleepModel.edmx</DependentUpon>
-      <LastGenOutput>SleepModel.Context.cs</LastGenOutput>
+    <EntityDeploy Include="Models\SleepLogAppEF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SleepLogAppEF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SleepLogAppEF.edmx.diagram">
+      <DependentUpon>SleepLogAppEF.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\SleepModel.tt">
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Models\SleepLogAppEF.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SleepModel.edmx</DependentUpon>
-      <LastGenOutput>SleepModel.cs</LastGenOutput>
+      <DependentUpon>SleepLogAppEF.edmx</DependentUpon>
+      <LastGenOutput>SleepLogAppEF.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SleepLogAppEF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SleepLogAppEF.edmx</DependentUpon>
+      <LastGenOutput>SleepLogAppEF.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -166,30 +166,32 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extended\Sleep.cs" />
+    <Compile Include="Models\Extended\User.cs" />
     <Compile Include="Models\Sleep.cs">
-      <DependentUpon>SleepModel.tt</DependentUpon>
+      <DependentUpon>SleepLogAppEF.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SleepModel.Context.cs">
+    <Compile Include="Models\SleepLogAppEF.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SleepModel.Context.tt</DependentUpon>
+      <DependentUpon>SleepLogAppEF.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SleepModel.cs">
+    <Compile Include="Models\SleepLogAppEF.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SleepModel.tt</DependentUpon>
+      <DependentUpon>SleepLogAppEF.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SleepModel.Designer.cs">
+    <Compile Include="Models\SleepLogAppEF.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SleepModel.edmx</DependentUpon>
+      <DependentUpon>SleepLogAppEF.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SleepsInitializer.cs" />
-    <Compile Include="Models\User.cs">
-      <DependentUpon>SleepModel.tt</DependentUpon>
+    <Compile Include="Models\SleepTemporary.cs">
+      <DependentUpon>SleepLogAppEF.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserActivation.cs">
-      <DependentUpon>SleepModel.tt</DependentUpon>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>SleepLogAppEF.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ChartInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,7 +201,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Login\Rejestration.cshtml" />
+    <Content Include="Views\Login\Registration.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\MyProfile.cshtml" />
@@ -215,7 +217,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Sample\" />
+    <Folder Include="Views\Users\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

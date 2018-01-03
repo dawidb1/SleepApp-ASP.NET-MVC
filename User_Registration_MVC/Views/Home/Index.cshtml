@@ -65,7 +65,7 @@
                         </td>
                         <td>
                             @{
-                                TimeSpan ts = TimeSpan.FromTicks(sleep.AmountOfSleep);
+                                TimeSpan ts = (TimeSpan)sleep.AmountOfSleep;
                             }
                             @Html.DisplayFor(modelItem => ts)
                         </td>

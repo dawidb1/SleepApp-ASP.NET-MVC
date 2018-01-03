@@ -11,7 +11,6 @@ namespace User_Registration_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class User
     {
@@ -19,30 +18,22 @@ namespace User_Registration_MVC.Models
         public User()
         {
             this.Sleep = new HashSet<Sleep>();
+            this.SleepTemporary = new HashSet<SleepTemporary>();
         }
-
+    
         public int UserId { get; set; }
-
-        [Required(ErrorMessage = "Required.")]
         public string Username { get; set; }
-
-        [Required(ErrorMessage = "Required.")]
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "Required.")]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required(ErrorMessage = "Required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
-
         public System.DateTime CreatedDate { get; set; }
-
         public Nullable<System.DateTime> LastLoginDate { get; set; }
-        public bool RememberMe { get; set; }
-
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
+        public bool IsEmailVerified { get; set; }
+        public System.Guid ActivationCode { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sleep> Sleep { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SleepTemporary> SleepTemporary { get; set; }
     }
 }

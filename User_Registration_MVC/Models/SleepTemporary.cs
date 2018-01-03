@@ -12,9 +12,15 @@ namespace User_Registration_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserActivation
+    public partial class SleepTemporary
     {
+        public int TemporarySleepId { get; set; }
+        public System.DateTime StartSleep { get; set; }
+        public Nullable<int> EveningRating { get; set; }
+        public Nullable<int> MorningRating { get; set; }
+        public Nullable<bool> QuickSleep { get; set; }
         public int UserId { get; set; }
-        public System.Guid ActivationCode { get; set; }
+    
+        public virtual User User { get; set; }
     }
 }

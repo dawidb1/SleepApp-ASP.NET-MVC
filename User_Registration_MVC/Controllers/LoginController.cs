@@ -21,31 +21,73 @@ namespace User_Registration_MVC.Controllers
         [AllowAnonymous]
         public ActionResult Login(User user)
         {
-            var db = new SleepAppV2Entities();
-            int? userId = db.ValidateUser(user.Username, user.Password).FirstOrDefault();
+            var db = new SleepLogAppEntities();
+            var dbUser = db.User.Where(x => x.Username == user.Username).FirstOrDefault();
 
+            //int userId = ValidateUser(logUser,dbUser);
             string message = string.Empty;
-            switch (userId.Value)
-            {
-                case -1:
-                    message = "Username and/or password is incorrect.";
-                    break;
-                case -2:
-                    message = "Account has not been activated.";
-                    break;
-                default:
-                    FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
-                    Session["UserId"] = userId;
-                    Session["Username"] = user.Username;
-                    message = "Login succesful.";
-                    return RedirectToAction("Index", "Home");
-            }
 
-            ViewBag.Message = message;
+            if (isPasswordMatch(user,dbUser))
+            {
+                if (dbUser.IsEmailVerified)
+                {
+                    Session["UserId"] = user.UserId;
+                    Session["Username"] = user.Username;
+                    ViewBag.Message = "Login succesful.";
+                    return RedirectToAction("Index", "Home");
+                }
+                else ViewBag.Message = "Account is not activated.";
+                return RedirectToAction("Index", "Home");
+
+            }
+            ViewBag.Message = "Login and Password not match.";
             return RedirectToAction("Index", "Home");
+
             //return View("../Home/Index", user); //idzie do /login/login
         }
+        [NonAction]
+        private bool isPasswordMatch(User logUser,User dbUser)
+        {
+            if (logUser.Password == dbUser.Password) return true;
+            return false;
+        }
+        
+        //private int ValidateUser(User thisUser)
+        //{
+        //    int sleepId;
+        //    var db = new SleepLogAppEntities();
+        //    var dbUser = db.User.Where(x => x.Username == thisUser.Username).FirstOrDefault();
 
+        //    string message;
+
+        //    if (dbUser != null)
+        //    {
+        //        if (thisUser.Password == dbUser.Password
+        //        && dbUser.IsEmailVerified)
+        //        {
+        //            sleepId = dbUser.UserId;
+        //            message = "Login succesful";
+        //        }
+        //        else if (thisUser.Password != dbUser.Password)
+        //        {
+        //            sleepId = -1;
+        //            message = "Username and password not match";
+        //        }
+        //        else if (!dbUser.IsEmailVerified)
+        //        {
+        //            sleepId = -2;
+        //            message = "Email is not verified. Chech your mailbox and activate account.";
+        //        }
+        //        else throw new Exception();
+        //    }
+        //    else
+        //    {
+        //        message = "Username is not exist. Sign up";
+        //        RedirectToAction("Home", "Index");
+        //    }
+        //    return sleepId;
+        //}
+        
         [HttpGet]
         public ActionResult Logout()
         {
@@ -56,19 +98,19 @@ namespace User_Registration_MVC.Controllers
 
 
         [HttpGet]
-        public ActionResult Rejestration()
+        public ActionResult Registration()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Rejestration(User user)
+        public ActionResult Registration(User user)
         {
-            var db = new SleepAppV2Entities();
+            var db = new SleepLogAppEntities();
             user.CreatedDate = DateTime.Now;
 
-            var usernameTaken = db.Users.Any(u => u.Username == user.Username);
-            var emailTaken = db.Users.Any(u => u.Email == user.Email);
+            var usernameTaken = db.User.Any(u => u.Username == user.Username);
+            var emailTaken = db.User.Any(u => u.Email == user.Email);
 
             if (usernameTaken)
             {
@@ -80,7 +122,7 @@ namespace User_Registration_MVC.Controllers
             }
             else
             {
-                db.Users.Add(user);
+                db.User.Add(user);
                 db.SaveChanges();
             }
 
@@ -89,8 +131,8 @@ namespace User_Registration_MVC.Controllers
                 var SleepList = SleepsInitializer.SleepsInitialize();
                 foreach (Sleep sleep in SleepList)
                 {
-                    sleep.InitOtherData();
-                    db.Users.First(x => x.UserId == user.UserId).Sleep.Add(sleep);
+                    sleep.SetAmountOfSleep(); //możnaby przerzucić do SleepInitializer
+                    db.User.First(x => x.UserId == user.UserId).Sleep.Add(sleep);
                 }
 
                 db.SaveChanges();

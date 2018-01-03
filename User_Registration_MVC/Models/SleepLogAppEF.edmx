@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SleepLogApp2DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sleep">
+          <Key>
+            <PropertyRef Name="SleepId" />
+          </Key>
+          <Property Name="SleepId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartSleep" Type="datetime" Nullable="false" />
+          <Property Name="EndSleep" Type="datetime" Nullable="false" />
+          <Property Name="MorningRating" Type="int" />
+          <Property Name="EveningRating" Type="int" />
+          <Property Name="Note" Type="varchar" MaxLength="200" />
+          <Property Name="AmountOfSleep" Type="time" Precision="7" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="QuickSleep" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SleepTemporary">
+          <Key>
+            <PropertyRef Name="TemporarySleepId" />
+          </Key>
+          <Property Name="TemporarySleepId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartSleep" Type="datetime" Nullable="false" />
+          <Property Name="EveningRating" Type="int" />
+          <Property Name="MorningRating" Type="int" />
+          <Property Name="QuickSleep" Type="bit" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Sleep_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Sleep" Type="Self.Sleep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Sleep">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SleepTemporary_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SleepTemporary" Type="Self.SleepTemporary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SleepTemporary">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SleepLogApp2DBModelStoreContainer">
+          <EntitySet Name="Sleep" EntityType="Self.Sleep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SleepTemporary" EntityType="Self.SleepTemporary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Sleep_User" Association="Self.FK_Sleep_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Sleep" EntitySet="Sleep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SleepTemporary_User" Association="Self.FK_SleepTemporary_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="SleepTemporary" EntitySet="SleepTemporary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SleepLogApp2DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Sleep">
+          <Key>
+            <PropertyRef Name="SleepId" />
+          </Key>
+          <Property Name="SleepId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartSleep" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndSleep" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MorningRating" Type="Int32" />
+          <Property Name="EveningRating" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AmountOfSleep" Type="Time" Precision="7" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="QuickSleep" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Sleep_User" FromRole="Sleep" ToRole="User" />
+        </EntityType>
+        <EntityType Name="SleepTemporary">
+          <Key>
+            <PropertyRef Name="TemporarySleepId" />
+          </Key>
+          <Property Name="TemporarySleepId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartSleep" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EveningRating" Type="Int32" />
+          <Property Name="MorningRating" Type="Int32" />
+          <Property Name="QuickSleep" Type="Boolean" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_SleepTemporary_User" FromRole="SleepTemporary" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Sleep" Relationship="Self.FK_Sleep_User" FromRole="User" ToRole="Sleep" />
+          <NavigationProperty Name="SleepTemporary" Relationship="Self.FK_SleepTemporary_User" FromRole="User" ToRole="SleepTemporary" />
+        </EntityType>
+        <Association Name="FK_Sleep_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Sleep" Type="Self.Sleep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Sleep">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SleepTemporary_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SleepTemporary" Type="Self.SleepTemporary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SleepTemporary">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SleepLogAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sleep" EntityType="Self.Sleep" />
+          <EntitySet Name="SleepTemporary" EntityType="Self.SleepTemporary" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Sleep_User" Association="Self.FK_Sleep_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Sleep" EntitySet="Sleep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SleepTemporary_User" Association="Self.FK_SleepTemporary_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="SleepTemporary" EntitySet="SleepTemporary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SleepLogApp2DBModelStoreContainer" CdmEntityContainer="SleepLogAppEntities">
+          <EntitySetMapping Name="Sleep">
+            <EntityTypeMapping TypeName="SleepLogApp2DBModel.Sleep">
+              <MappingFragment StoreEntitySet="Sleep">
+                <ScalarProperty Name="SleepId" ColumnName="SleepId" />
+                <ScalarProperty Name="StartSleep" ColumnName="StartSleep" />
+                <ScalarProperty Name="EndSleep" ColumnName="EndSleep" />
+                <ScalarProperty Name="MorningRating" ColumnName="MorningRating" />
+                <ScalarProperty Name="EveningRating" ColumnName="EveningRating" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="AmountOfSleep" ColumnName="AmountOfSleep" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuickSleep" ColumnName="QuickSleep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SleepTemporary">
+            <EntityTypeMapping TypeName="SleepLogApp2DBModel.SleepTemporary">
+              <MappingFragment StoreEntitySet="SleepTemporary">
+                <ScalarProperty Name="TemporarySleepId" ColumnName="TemporarySleepId" />
+                <ScalarProperty Name="StartSleep" ColumnName="StartSleep" />
+                <ScalarProperty Name="EveningRating" ColumnName="EveningRating" />
+                <ScalarProperty Name="MorningRating" ColumnName="MorningRating" />
+                <ScalarProperty Name="QuickSleep" ColumnName="QuickSleep" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="SleepLogApp2DBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
