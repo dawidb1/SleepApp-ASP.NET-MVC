@@ -36,13 +36,20 @@ namespace User_Registration_MVC.Controllers
                     ViewBag.Message = "Login succesful.";
                     return RedirectToAction("Index", "Home");
                 }
-                else ViewBag.Message = "Account is not activated.";
-                return RedirectToAction("Index", "Home");
-
+                //else ViewBag.Message = "Account is not activated.";
+                else
+                {
+                    Session["UserId"] = user.UserId;
+                    Session["Username"] = user.Username;
+                    ViewBag.Message = "Login succesful. Account not activated";
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            ViewBag.Message = "Login and Password not match.";
-            return RedirectToAction("Index", "Home");
-
+            else
+            {
+                ViewBag.Message = "Login and Password not match.";
+                return RedirectToAction("Index", "Home");
+            }
             //return View("../Home/Index", user); //idzie do /login/login
         }
         [NonAction]
@@ -111,21 +118,29 @@ namespace User_Registration_MVC.Controllers
 
             var usernameTaken = db.User.Any(u => u.Username == user.Username);
             var emailTaken = db.User.Any(u => u.Email == user.Email);
+            string message = string.Empty;
 
             if (usernameTaken)
             {
                 user.UserId = -1;
+                //message = "Username already exists.\\nPlease choose a different username.";
+
             }
             else if (emailTaken)
             {
                 user.UserId = -2;
+                //message = "Supplied email address has already been used.";
+                ModelState.AddModelError("EmailExist", "Email already exist");
+                return View(user);
             }
             else
             {
                 db.User.Add(user);
+                message = "Registration successful.\\nUser Id: " + user.UserId.ToString();
                 db.SaveChanges();
             }
 
+            #region //SleepInitialize
             if (user.UserId>0)
             {
                 var SleepList = SleepsInitializer.SleepsInitialize();
@@ -137,20 +152,21 @@ namespace User_Registration_MVC.Controllers
 
                 db.SaveChanges();
             }
+            #endregion 
 
-            string message = string.Empty;
-            switch (user.UserId)
-            {
-                case -1:
-                    message = "Username already exists.\\nPlease choose a different username.";
-                    break;
-                case -2:
-                    message = "Supplied email address has already been used.";
-                    break;
-                default:
-                    message = "Registration successful.\\nUser Id: " + user.UserId.ToString();
-                    break;
-            }
+            //string message = string.Empty;
+            //switch (user.UserId)
+            //{
+            //    case -1:
+            //        message = "Username already exists.\\nPlease choose a different username.";
+            //        break;
+            //    case -2:
+            //        message = "Supplied email address has already been used.";
+            //        break;
+            //    default:
+            //        message = "Registration successful.\\nUser Id: " + user.UserId.ToString();
+            //        break;
+            //}
             ViewBag.Message = message;
 
             return PartialView("_HeaderNavBar", user);

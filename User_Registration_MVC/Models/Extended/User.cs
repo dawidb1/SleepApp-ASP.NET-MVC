@@ -38,7 +38,6 @@ namespace User_Registration_MVC.Models
         public string ConfirmPassword { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email adress required")]
-        //  [DataType(DataType.EmailAddress,ErrorMessage = "Email is not valid")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
