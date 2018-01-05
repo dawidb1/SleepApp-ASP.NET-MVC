@@ -195,6 +195,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>SleepLogAppEF.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\ViewModels\ChartInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -213,6 +214,8 @@
     <Content Include="Views\Login\Logout.cshtml" />
     <Content Include="Views\Home\Stats.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
+    <Content Include="Views\User\VerifyAccount.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

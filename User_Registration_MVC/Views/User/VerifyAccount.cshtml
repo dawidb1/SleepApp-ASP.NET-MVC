@@ -1,0 +1,25 @@
+﻿
+@{
+    Html.RenderPartial("_HeaderNavBar");
+}
+@{
+    ViewBag.Title = "VerifyAccount";
+}
+@{ 
+    Layout = null;
+}
+
+<h2>VerifyAccount</h2>
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert-success">
+        <strong>Succes!</strong> Your account has been activated succesfully. Click here to @Html.ActionLink("Login", "Login");
+    </div>
+}
+else
+{
+    <div class="alert-danger">
+        <strong>Error!</strong> Invalid Request.
+    </div>
+}

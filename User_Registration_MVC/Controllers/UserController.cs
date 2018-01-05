@@ -5,12 +5,75 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using User_Registration_MVC.Models;
 
 namespace User_Registration_MVC.Controllers
 {
     public class UserController : Controller
     {
+        //Login Action 
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserLogin userLogin, string returnUrl="")
+        {
+            int REMEMBER_ME_TIME = 525600; //YEAR IN MINUTES
+            int NOT_REMEMBER_ME_TIME = 20;
+            
+            string Message = string.Empty;
+            using (var db = new SleepLogAppEntities())
+            {
+                var user = db.User.Where(x => x.Username == userLogin.Username).FirstOrDefault();
+                if (user!=null)
+                {
+                    if (string.Compare(Crypto.Hash(userLogin.Password),user.Password)==0)
+                    {
+                        int timeout = userLogin.RememberMe ? REMEMBER_ME_TIME : NOT_REMEMBER_ME_TIME;
+                        var ticket = new FormsAuthenticationTicket(userLogin.Username, userLogin.RememberMe, timeout);
+                        string encrypted = FormsAuthentication.Encrypt(ticket);
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+                        cookie.Expires = DateTime.Now.AddMinutes(timeout);
+                        cookie.HttpOnly = true;
+                        Response.Cookies.Add(cookie);
+
+                        if (Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        Message = "Invalid credential provided";
+                    }
+                }
+                else
+                {
+                    Message = "Invalid credential provided";
+                }
+            }
+
+                ViewBag.Message = Message;
+            return View();
+        }
+
+        //Logout
+        [HttpPost]
+        [Authorize]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+        }
+       
         // Registration Action
         public ActionResult Registration()
         {
@@ -26,6 +89,9 @@ namespace User_Registration_MVC.Controllers
             //Model Validation
             if (ModelState.IsValid)
             {
+                user.IsEmailVerified = false;
+                user.CreatedDate = DateTime.Now;
+
                 #region //Email is taken
                 bool isEmailTaken = IsEmailTaken(user.Email);
                 if (isEmailTaken)
@@ -44,16 +110,11 @@ namespace User_Registration_MVC.Controllers
                 user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword);
                 #endregion
 
-                user.IsEmailVerified = false;
-                user.CreatedDate = DateTime.Now;
-
                 #region //Save to db
                 using (var db = new SleepLogAppEntities())
                 {
                     db.User.Add(user);
                     db.SaveChanges();
-
-                  
                 }
                 #endregion
 
@@ -75,6 +136,27 @@ namespace User_Registration_MVC.Controllers
             ViewBag.Status = Status;
             return View(user);
         }
+
+        //Verify account
+        [HttpGet]
+        public ActionResult VerifyAccount(string id)
+        {
+            bool Status = false;
+            using(var db = new SleepLogAppEntities())
+            {
+                db.Configuration.ValidateOnSaveEnabled = false; //to avoid confirm password does not match on save in db
+                User verifyUser = db.User.Where(x => x.ActivationCode == new Guid(id)).FirstOrDefault();
+                if (verifyUser!=null)
+                {
+                    verifyUser.IsEmailVerified = true;
+                    Status = true;
+                    db.SaveChanges();
+                }
+                ViewBag.Status = Status;
+            }
+            return View();
+        }
+
         [NonAction]
         public bool IsEmailTaken(string email)
         {

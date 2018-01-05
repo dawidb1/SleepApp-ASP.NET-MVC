@@ -12,6 +12,7 @@ namespace User_Registration_MVC.Controllers
     {
 
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             int? id = (int?)Session["userId"];

@@ -28,5 +28,7 @@ namespace User_Registration_MVC.Models
         public virtual DbSet<Sleep> Sleep { get; set; }
         public virtual DbSet<SleepTemporary> SleepTemporary { get; set; }
         public virtual DbSet<User> User { get; set; }
+
+        public System.Data.Entity.DbSet<User_Registration_MVC.Models.UserLogin> UserLogins { get; set; }
     }
 }

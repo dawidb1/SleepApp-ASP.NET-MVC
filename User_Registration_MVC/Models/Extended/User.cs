@@ -18,7 +18,7 @@ namespace User_Registration_MVC.Models
         }
         public int ValidateUser(string username, string password)
         {
-            return 0;
+            throw new NotImplementedException();
         }
     }
     public class UserMetadata
