@@ -66,7 +66,7 @@ namespace User_Registration_MVC.Controllers
         }
 
         //Logout
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public ActionResult Logout()
         {

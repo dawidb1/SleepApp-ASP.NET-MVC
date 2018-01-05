@@ -1,168 +1,64 @@
 ﻿@model User_Registration_MVC.Models.User
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @*<a class="navbar-brand"></a>*@
-            @Html.ActionLink("Sleep Log", "Index", "Home",null,new {@class="navbar-brand"})
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    @Html.ActionLink("Your logs", "Index","Home")  
-                </li>
-                <li>
-                    @Html.ActionLink("Stats","Stats","Home")                   
-                </li>
-                <li>
-                    <a href="#">Go sleep</a>
-                </li>
-                <li>
-                    <a href="#">Add manually</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-
-                @{
-                    //var username = Session["Username"];
-                    string username = null;
-                }
-                @if (username == null)
-                {
-                    <li id="sign-up-button">
-                        <a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Sleep Log", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        @Html.ActionLink("Your logs", "Index", "Home")
                     </li>
-                    <li id="login-button">
-                        <a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    <li>
+                        @Html.ActionLink("Stats", "Stats", "Home")
                     </li>
-                }
-                else
-                {
-                    <li><a>Welcome @username</a></li>
-                    <li> @Html.ActionLink("Logout", "Logout", "Login")</li>    
-                }
-            </ul>
+                    <li>
+                        <a href="#">Go sleep</a>
+                    </li>
+                    <li>
+                        <a href="#">Add manually</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    @if (!Request.IsAuthenticated)
+                    {
+                             <li id="login-button">
+                            @*<a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>*@
+                            <a href=@Url.Action("Login", "User")><span class="glyphicon glyphicon-log-in"></span> Log In</a>
+                            @*@Html.ActionLink("Sign Up","Registration","User")*@
+                        </li>
+                        <li id="sign-up-button" >
+                            <a href=@Url.Action("Registration", "User")><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                           @* <a href="."><span class="glyphicon glyphicon-user"></span> Sign Up</a>*@
+                            @*@Html.ActionLink("Log In","Login","User",null, new { @class = "glyphicon glyphicon-user" })*@
+                        </li>
+                   
+                    }
+                    else
+                    {
+                        <li><a>Welcome @HttpContext.Current.User.Identity.Name</a></li>
+                        <li> @Html.ActionLink("Logout", "Logout", "User")</li>
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/navbarStyle.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 
-@using (Html.BeginForm("Login", "Login", FormMethod.Post))
-{
-    <div id="login-form" class="login-form">
-        <div>
-            <form>
-                <h4>Username</h4>
-                @Html.TextBoxFor(u => u.Username)
-                @Html.ValidationMessageFor(m => m.Username, "", new {@class = "error"})
-
-                <h4>Password</h4>
-                @Html.PasswordFor(u => u.Password)
-                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
-                <div style="display: inline-block">
-                    <div>@Html.CheckBoxFor(m => m.RememberMe)</div>
-                    <p style="color: white"> Remember me </p>
-
-                </div>
-                @*<input type="button" id="btnTester" value="Test" />*@
-                <input class="sign-in-button" type="submit" value="Sign In"/>
-                <div class="mom">
-                    <h4 class="child">New here? </h4><a class="href" id="sign-up-href">Sign Up</a>
-                </div>
-            </form>
-        </div>
-    </div>
-}
-
-
-@using (Html.BeginForm("Registration", "Login", FormMethod.Post))
-{
-    <div id="sign-up-form" class="login-form">
-        <div>
-            <form>
-                <h4>Username</h4>
-                @Html.TextBoxFor(u => u.Username)
-                @Html.ValidationMessageFor(m => m.Username, "", new {@class = "error"})
-
-
-                <h4>Password</h4>
-                @Html.PasswordFor(u => u.Password)
-                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
-
-                <h4>Confirm Password</h4>
-                @Html.PasswordFor(u => u.ConfirmPassword)
-                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
-
-                <h4>Email</h4>
-                @Html.TextBoxFor(u => u.Email)
-                @Html.ValidationMessageFor(m => m.Email, "", new {@class = "error"})
-
-                <input class="sign-in-button" type="submit" value="Sign Up"/>
-                <div class="mom">
-                    <h4 class="child">Already have an account? </h4> <a class="href" id="login-href"> Sign in</a>
-                </div>
-            </form>
-        </div>
-    </div>
-}
-
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="~/Content/navbarStyle.css" rel="stylesheet"/>
-<link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-<script src="~/Scripts/jquery-3.2.1.min.js"></script>
-<style>
-    .error { color: crimson; }
-</style>
-
-@if (@ViewBag.Message != null)
-{
-    <script type="text/javascript">
-        $(function() {
-            $('#login-form').show();
-            alert("@ViewBag.Message");
-        });
-    </script>
-}
-<script type="text/javascript" language="javascript">
-    $(document).ready(() => {
-
-        $('#login-button').click(function() {
-            toggleSignIn();
-        });
-        $('#login-href').on('click',
-            function() {
-                toggleSignIn();
-            });
-        $('#sign-up-button').click(function() {
-            toggleSignUp();
-        });
-        $('#sign-up-href').on('click',
-            function() {
-                toggleSignUp();
-            });
-        $('#btnTester').click(function() {
-            $('#tbUser').Text = "test";
-        });
-    });
-    function toggleSignIn() {
-        $('#login-form').toggle();
-        if (!$('#sign-up-form').isCollapsed) {
-            $('#sign-up-form').hide();
-        }
-    }
-    function toggleSignUp() {
-        $('#sign-up-form').toggle();
-        if (!$('#login-form').isCollapsed) {
-            $('#login-form').hide();
-        }
-    }
-</script>
 </body>
