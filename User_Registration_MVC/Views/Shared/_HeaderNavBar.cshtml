@@ -31,17 +31,12 @@
 
                     @if (!Request.IsAuthenticated)
                     {
-                             <li id="login-button">
-                            @*<a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>*@
+                        <li id="login-button">
                             <a href=@Url.Action("Login", "User")><span class="glyphicon glyphicon-log-in"></span> Log In</a>
-                            @*@Html.ActionLink("Sign Up","Registration","User")*@
                         </li>
                         <li id="sign-up-button" >
                             <a href=@Url.Action("Registration", "User")><span class="glyphicon glyphicon-user"></span> Sign Up</a>
-                           @* <a href="."><span class="glyphicon glyphicon-user"></span> Sign Up</a>*@
-                            @*@Html.ActionLink("Log In","Login","User",null, new { @class = "glyphicon glyphicon-user" })*@
                         </li>
-                   
                     }
                     else
                     {
