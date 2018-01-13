@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using User_Registration_MVC.Models;
 using User_Registration_MVC.Models.ViewModels;
+using System.Security.Claims;
 
 namespace User_Registration_MVC.Controllers
 {
@@ -15,25 +16,30 @@ namespace User_Registration_MVC.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            int? id = (int?)Session["userId"];
-
-            if (id != null)
+            //int? id = (int?)Session["userId"];
+            //   int id = int.Parse(HttpContext.Session["userId"].ToString());
+            string username = HttpContext.User.Identity.Name;
+            //if (id != null)
+            if(true)
             {
                 var db = new SleepLogAppEntities();
-                User user = db.User.First(u => u.UserId == id);
+                User user = db.User.First(u => u.Username == username);
                 return View(user);
             }
 
             return View();
         }
-
+        [Authorize]
         [HttpGet]
         public ActionResult Stats()
         {
             var db = new SleepLogAppEntities();
 
-            int? userId = (int?)Session["userId"];
-            if (userId != null)
+            //int userId = (int)Session["userId"];
+            string username = HttpContext.User.Identity.Name;
+            int userId = db.User.Where(x => x.Username == username).FirstOrDefault().UserId;
+            //if (userId != null)
+            if(true)
             {
                 var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
 

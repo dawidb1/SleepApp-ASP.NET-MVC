@@ -1,10 +1,70 @@
-﻿@using User_Registration_MVC.Models
-@model System.Collections.Generic.List<User_Registration_MVC.Models.ViewModels.ChartInfo>
+﻿@model System.Collections.Generic.List<User_Registration_MVC.Models.ViewModels.ChartInfo>
 
 @{
-    ViewBag.Title = "title";
     Layout = null;
-    Html.RenderPartial("_HeaderNavBar",new User());
+    Html.RenderPartial("_HeaderNavBar");
 }
 
-<h2>title</h2>
+<h2>Statistics</h2>
+
+<h2>See your last 7 days:</h2>
+<canvas id="myChart" width="400" height="200"></canvas>
+
+
+<script src="~/Scripts/Chart.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/Date.min.js"></script>
+
+<script type="text/javascript">
+        var date = @Html.Raw(Json.Encode(Model.Select(x=>x.DateJS)));
+        var amountOfTime = @Html.Raw(Json.Encode(Model.Select(x=>x.AmountOfHours)));
+
+        var dateList = [];
+        var amountOfTimeList = [];
+        for (var i = 0; i < date.length; i++) {
+            var dateTemp = new Date(date[i]);
+            var stringTemp = (dateTemp.getDate() + '.' + (dateTemp.getMonth()+1));
+            dateList.push(stringTemp);
+
+            amountOfTimeList.push(ticksToTimespan(amountOfTime[i]));
+        }
+
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: 'Hours of sleep',
+                    data: amountOfTimeList,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 2
+                        }
+                    }]
+                }
+            }
+        });
+        function pad2(number) {
+            number = '0' + number;
+            return number.substr(number.length - 2);
+        }
+        function ticksToTimespan(ticks) {
+            var seconds = ticks / 10000000;
+            //var hour = Math.floor(seconds / 3600);
+            //var minute = Math.floor((seconds / 60) % 60);
+            //var second = seconds % 60;
+
+            var hour = seconds / 3600;
+
+            //var result = pad2(hour) + ':' + pad2(minute) + ':' + pad2(second);
+            var result = hour;
+            //alert(result);
+            return result;
+        }
+</script>

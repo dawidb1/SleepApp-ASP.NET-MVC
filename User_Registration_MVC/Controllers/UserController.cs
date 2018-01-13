@@ -40,6 +40,7 @@ namespace User_Registration_MVC.Controllers
                         cookie.Expires = DateTime.Now.AddMinutes(timeout);
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
+                        Session["userId"] = user.UserId;
 
                         if (Url.IsLocalUrl(returnUrl))
                         {
@@ -71,6 +72,8 @@ namespace User_Registration_MVC.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.RemoveAll();
             return RedirectToAction("Login");
         }
        
@@ -130,8 +133,6 @@ namespace User_Registration_MVC.Controllers
                 Message = "Invalid Request";
             }
 
-            //Sleep initializing
-            //Add user created date
             ViewBag.Message = Message;
             ViewBag.Status = Status;
             return View(user);
@@ -150,6 +151,16 @@ namespace User_Registration_MVC.Controllers
                 {
                     verifyUser.IsEmailVerified = true;
                     Status = true;
+
+                    #region //sleep initializer
+                    var SleepList = SleepsInitializer.SleepsInitialize();
+                    foreach (Sleep sleep in SleepList)
+                    {
+                        sleep.SetAmountOfSleep(); //możnaby przerzucić do SleepInitializer
+                        db.User.First(x => x.UserId == verifyUser.UserId).Sleep.Add(sleep);
+                    }
+                    #endregion
+
                     db.SaveChanges();
                 }
                 ViewBag.Status = Status;
