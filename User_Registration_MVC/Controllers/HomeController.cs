@@ -11,7 +11,10 @@ namespace User_Registration_MVC.Controllers
 {
     public class HomeController : Controller
     {
-
+        public ActionResult DatePicker()
+        {
+            return View();
+        }
         [HttpGet]
         [Authorize]
         public ActionResult Index()
@@ -27,7 +30,7 @@ namespace User_Registration_MVC.Controllers
                 return View(user);
             }
 
-            return View();
+            //return View();
         }
         [Authorize]
         [HttpGet]
@@ -50,7 +53,7 @@ namespace User_Registration_MVC.Controllers
                 }
                 return View(chartList);
             }
-            return RedirectToAction("Home", "Index");
+            //return RedirectToAction("Home", "Index");
         }
     }
 }

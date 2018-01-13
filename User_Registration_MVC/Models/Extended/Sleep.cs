@@ -20,8 +20,10 @@ namespace User_Registration_MVC.Models
     public class SleepMetaData
     {
         [Display(Name = "Start Sleep")]
+        [DataType(DataType.DateTime)]
         public System.DateTime StartSleep { get; set; }
         [Display(Name = "End Sleep")]
+        [DataType(DataType.DateTime)]
         public System.DateTime EndSleep { get; set; }
         [Display(Name = "Morning Rating")]
         public Nullable<int> MorningRating { get; set; }

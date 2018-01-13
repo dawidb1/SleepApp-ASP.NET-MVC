@@ -81,9 +81,9 @@
                             @* @Html.DisplayFor(modelItem => item.note)*@
                         </td>
                         <td>
-                            @*@Html.ActionLink("Edit", "Edit", new { id = item.SleepID }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.SleepID }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.SleepID })*@
+                            @Html.ActionLink("Edit", "Edit","Sleeps", new { id = sleep.SleepId }, null) |
+                                @Html.ActionLink("Details", "Details", "Sleeps", new { id = sleep.SleepId }, null) |
+                                @Html.ActionLink("Delete", "Delete", "Sleeps", new { id = sleep.SleepId }, null)
                         </td>
                     </tr>
                 }
