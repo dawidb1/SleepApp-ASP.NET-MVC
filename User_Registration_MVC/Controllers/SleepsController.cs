@@ -82,8 +82,9 @@ namespace User_Registration_MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SleepId,StartSleep,EndSleep,MorningRating,EveningRating,Note,AmountOfSleep,UserId,QuickSleep")] Sleep sleep)
+        public ActionResult Edit([Bind(Include = "SleepId,StartSleep,EndSleep,MorningRating,EveningRating,Note,QuickSleep")] Sleep sleep)
         {
+            //trzeba będzie chyba podać userId żeby przełknęło zmianę
             if (ModelState.IsValid)
             {
                 db.Entry(sleep).State = EntityState.Modified;
