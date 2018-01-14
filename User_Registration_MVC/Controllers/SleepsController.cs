@@ -87,9 +87,17 @@ namespace User_Registration_MVC.Controllers
             //trzeba będzie chyba podać userId żeby przełknęło zmianę
             if (ModelState.IsValid)
             {
-                db.Entry(sleep).State = EntityState.Modified;
+                var dbSleep = db.Sleep.Where(x => x.SleepId == sleep.SleepId).FirstOrDefault();
+                sleep.UserId = dbSleep.UserId;
+                sleep.User = dbSleep.User;
+
+                dbSleep.StartSleep = sleep.StartSleep;
+                dbSleep.EndSleep = sleep.EndSleep;
+                
+
+                db.Entry(dbSleep).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             ViewBag.UserId = new SelectList(db.User, "UserId", "Username", sleep.UserId);
             return View(sleep);

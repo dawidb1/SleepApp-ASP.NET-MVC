@@ -21,13 +21,17 @@ namespace User_Registration_MVC.Models
     {
         [Display(Name = "Start Sleep")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public System.DateTime StartSleep { get; set; }
         [Display(Name = "End Sleep")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public System.DateTime EndSleep { get; set; }
         [Display(Name = "Morning Rating")]
+        [Range(typeof(int),"1","10",ErrorMessage = "must be intiger from 0-10")]
         public Nullable<int> MorningRating { get; set; }
         [Display(Name = "Evening Rating")]
+        [Range(typeof(int), "1", "10", ErrorMessage = "must be intiger from 0-10")]
         public Nullable<int> EveningRating { get; set; }
         [Display(Name = "Amount of Sleep")]
         public Nullable<System.TimeSpan> AmountOfSleep { get; set; }
