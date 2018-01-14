@@ -1,7 +1,9 @@
-﻿@model SleepLogASP.Models.Sleep
+﻿@model User_Registration_MVC.Models.Sleep
 
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("_HeaderNavBar");
 }
 
 <h2>Delete</h2>
@@ -12,11 +14,67 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.StartSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MorningRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MorningRating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EveningRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EveningRating)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Note)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountOfSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountOfSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuickSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuickSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Username)
         </dd>
 
     </dl>
@@ -26,7 +84,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "Index","Home")
         </div>
     }
 </div>

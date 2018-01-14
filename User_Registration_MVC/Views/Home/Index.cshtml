@@ -1,7 +1,7 @@
 ﻿@using User_Registration_MVC.Models
 @model User_Registration_MVC.Models.User
 @{
-    Layout = null;
+    Layout = "../Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 </head>
 <body>
     @{
-        Html.RenderPartial("_HeaderNavBar", Model);
+        Html.RenderPartial("_HeaderNavBar");
     }
     @* Tutaj partialView by się przydał *@
     @if (Model != null)

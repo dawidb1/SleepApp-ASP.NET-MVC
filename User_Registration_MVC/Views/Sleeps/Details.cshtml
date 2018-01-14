@@ -1,7 +1,10 @@
-﻿@model SleepLogASP.Models.Sleep
+﻿@model User_Registration_MVC.Models.Sleep
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("_HeaderNavBar");
+
 }
 
 <h2>Details</h2>
@@ -11,6 +14,38 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.StartSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MorningRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MorningRating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EveningRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EveningRating)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Note)
         </dt>
 
@@ -18,9 +53,33 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountOfSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountOfSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuickSleep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuickSleep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Username)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SleepID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit","Edit", "Sleeps", new { id = Model.SleepId },null) |
+    @Html.ActionLink("Back to List", "Index","Home")
 </p>

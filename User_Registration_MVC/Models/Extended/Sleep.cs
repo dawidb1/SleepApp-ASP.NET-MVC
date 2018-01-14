@@ -9,6 +9,20 @@ namespace User_Registration_MVC.Models
     [MetadataType(typeof(SleepMetaData))]
     public partial class Sleep
     {
+        public Sleep()
+        {
+
+        }
+        public Sleep(Sleep sleep)
+        {
+            this.EndSleep = sleep.EndSleep;
+            this.StartSleep = sleep.StartSleep;
+            this.MorningRating = sleep.MorningRating;
+            this.EveningRating = sleep.EveningRating;
+            this.Note = sleep.Note;
+            this.QuickSleep = sleep.QuickSleep;
+            SetAmountOfSleep();
+        }
         public void SetAmountOfSleep()
         {
             this.AmountOfSleep = EndSleep - StartSleep;
@@ -20,17 +34,17 @@ namespace User_Registration_MVC.Models
     public class SleepMetaData
     {
         [Display(Name = "Start Sleep")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public System.DateTime StartSleep { get; set; }
         [Display(Name = "End Sleep")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public System.DateTime EndSleep { get; set; }
-        [Display(Name = "Morning Rating")]
+        [Display(Name = "Morning Rating (1-10)")]
         [Range(typeof(int),"1","10",ErrorMessage = "must be intiger from 0-10")]
         public Nullable<int> MorningRating { get; set; }
-        [Display(Name = "Evening Rating")]
+        [Display(Name = "Evening Rating (1-10)")]
         [Range(typeof(int), "1", "10", ErrorMessage = "must be intiger from 0-10")]
         public Nullable<int> EveningRating { get; set; }
         [Display(Name = "Amount of Sleep")]

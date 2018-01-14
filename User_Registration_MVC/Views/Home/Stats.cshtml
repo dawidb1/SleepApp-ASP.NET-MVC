@@ -1,19 +1,42 @@
 ﻿@model System.Collections.Generic.List<User_Registration_MVC.Models.ViewModels.ChartInfo>
 
 @{
-    Layout = null;
+    Layout = "../Shared/_Layout.cshtml";
     Html.RenderPartial("_HeaderNavBar");
 }
 
 <h2>Statistics</h2>
 
 <h2>See your last 7 days:</h2>
-<canvas id="myChart" width="400" height="200"></canvas>
+
+@*<div style="margin: auto 200px">
+    </div>*@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <h2>
+                Mean
+            </h2>
+            <p>
+                Mean sleep time from your last 7 days is 7h.
+            </p>
+            @*<p>
+                    <a class="btn" href="#">View details »</a>
+                </p>*@
+
+        </div>
+    </div>
+</div>
+
 
 
 <script src="~/Scripts/Chart.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/Date.min.js"></script>
+
 
 <script type="text/javascript">
         var date = @Html.Raw(Json.Encode(Model.Select(x=>x.DateJS)));
@@ -68,3 +91,4 @@
             return result;
         }
 </script>
+@*@Styles.Render("~/Content/css")*@

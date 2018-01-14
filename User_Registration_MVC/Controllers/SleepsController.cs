@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -52,9 +53,20 @@ namespace User_Registration_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Sleep.Add(sleep);
+                var username = HttpContext.User.Identity.Name;
+                //var user = db.User .Select(x => x.Username == username);
+                //var user = db.User.
+                //sleep.UserId = ViewBag.UserId;
+                var user = db.User.Where(x => x.Username == username).FirstOrDefault();
+                sleep.User = user;
+                sleep.UserId = user.UserId;
+
+                //db.Sleep.Add(new Sleep(sleep)); //MUST CHANGE DB TO COLAPSE IN CREATE?????
+                //db.Sleep.Add(sleep);
+                db.User.First(x => x.UserId == sleep.UserId).Sleep.Add(new Sleep(sleep));
+                //db.User.First(x => x.UserId == sleep.UserId).Sleep.Add(sleep);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
 
             ViewBag.UserId = new SelectList(db.User, "UserId", "Username", sleep.UserId);
@@ -84,16 +96,18 @@ namespace User_Registration_MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "SleepId,StartSleep,EndSleep,MorningRating,EveningRating,Note,QuickSleep")] Sleep sleep)
         {
-            //trzeba będzie chyba podać userId żeby przełknęło zmianę
             if (ModelState.IsValid)
             {
                 var dbSleep = db.Sleep.Where(x => x.SleepId == sleep.SleepId).FirstOrDefault();
-                sleep.UserId = dbSleep.UserId;
-                sleep.User = dbSleep.User;
 
                 dbSleep.StartSleep = sleep.StartSleep;
                 dbSleep.EndSleep = sleep.EndSleep;
-                
+                dbSleep.MorningRating = sleep.MorningRating;
+                dbSleep.EveningRating = sleep.EveningRating;
+                dbSleep.Note = sleep.Note;
+                dbSleep.QuickSleep = sleep.QuickSleep;
+                //jakaś walidacja żeby maks 24 godziny
+                dbSleep.SetAmountOfSleep();
 
                 db.Entry(dbSleep).State = EntityState.Modified;
                 db.SaveChanges();
@@ -126,7 +140,7 @@ namespace User_Registration_MVC.Controllers
             Sleep sleep = db.Sleep.Find(id);
             db.Sleep.Remove(sleep);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)

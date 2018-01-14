@@ -14,7 +14,8 @@ namespace User_Registration_MVC
                 "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.validate.unobstrusive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-*"));
@@ -30,7 +31,7 @@ namespace User_Registration_MVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                      "~/Content/bootstrap.css",
                      "~/Content/bootstrap-datetimepicker.css",
-                      "~/Content/site.css"));
+                      "~/Content/Site.css"));
         }
     }
 }
