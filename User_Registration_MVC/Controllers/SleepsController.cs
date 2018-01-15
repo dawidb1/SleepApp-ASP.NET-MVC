@@ -29,10 +29,11 @@ namespace User_Registration_MVC.Controllers
             var username = HttpContext.User.Identity.Name;
             var user = db.User.Where(x => x.Username == username).FirstOrDefault();
 
+            ReloadTimer reloadTimer;
             if (user.SleepTemporary.Any())
             {
                 var sTemp = user.SleepTemporary.LastOrDefault();
-                ReloadTimer reloadTimer;
+                
                 if (!sTemp.StartSleep.Equals(DateTime.MinValue)) //jeśli jest wypełnione
                 {
                     var amountOfSLeep = DateTime.Now - sTemp.StartSleep;
@@ -40,11 +41,11 @@ namespace User_Registration_MVC.Controllers
                 }
                 else
                 {
-                    reloadTimer = new ReloadTimer { RememberTimer = false };
+                    throw new Exception();
                 }
-                return View(reloadTimer);
             }
-            else throw new Exception();
+            else reloadTimer = new ReloadTimer { RememberTimer = false };
+            return View(reloadTimer);
         }
         public void GetTime()
         {
