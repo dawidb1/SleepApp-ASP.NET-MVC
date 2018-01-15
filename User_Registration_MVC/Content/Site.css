@@ -22,3 +22,51 @@ textarea {
     max-width: 280px;
 }
 
+
+button {
+    background-color: gray; /* Green*/
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    align-content: center;
+    /*font-size: auto;*/
+}
+#bla{
+    width:50px;
+    height:50px;
+    background-color:blue;
+    color:red;
+}
+
+#card {
+    width: 400px;
+    height: 400px;
+    text-align: center;
+    margin: 100px auto;
+    /*position: relative;*/
+}
+/*#time {
+    line-height: 100px;
+    color: black;
+}*/
+.circle {
+    border-radius: 50%;
+    /*font-size: 42px;*/
+    background-color: gray; /* Green */
+    border: none;
+    /*color: white;*/
+}
+
+.circle-text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color:white;
+    font-size:42px;
+    /*line-height: 50px;*/
+    /*height: 100px;*/
+}

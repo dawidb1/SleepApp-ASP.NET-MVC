@@ -13,6 +13,12 @@ namespace User_Registration_MVC.Models
         {
 
         }
+        public Sleep(DateTime start, DateTime end)
+        {
+            this.StartSleep = start;
+            this.EndSleep = end;
+            SetAmountOfSleep();
+        }
         public Sleep(Sleep sleep)
         {
             this.EndSleep = sleep.EndSleep;
@@ -26,8 +32,9 @@ namespace User_Registration_MVC.Models
         public void SetAmountOfSleep()
         {
             this.AmountOfSleep = EndSleep - StartSleep;
+            AmountOfSleep = TimeExtensions.StripMilliseconds((TimeSpan)AmountOfSleep);
         }
-
+    
         public DayOfWeek DayOfWeek { get { return this.StartSleep.DayOfWeek; } }
     }
 
@@ -35,11 +42,11 @@ namespace User_Registration_MVC.Models
     {
         [Display(Name = "Start Sleep")]
         //[DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime StartSleep { get; set; }
         [Display(Name = "End Sleep")]
         //[DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime EndSleep { get; set; }
         [Display(Name = "Morning Rating (1-10)")]
         [Range(typeof(int),"1","10",ErrorMessage = "must be intiger from 0-10")]
@@ -54,5 +61,12 @@ namespace User_Registration_MVC.Models
         [Display(Name ="Day of week")]
         public DayOfWeek DayOfWeek { get; }
 
+    }
+    public static class TimeExtensions
+    {
+        public static TimeSpan StripMilliseconds(this TimeSpan time)
+        {
+            return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
+        }
     }
 }

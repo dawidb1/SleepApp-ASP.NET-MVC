@@ -1,0 +1,129 @@
+﻿@model User_Registration_MVC.Models.ViewModels.ReloadTimer
+@{
+    ViewBag.Title = "GoSLeep";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("_HeaderNavBar");
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<h2>GoSleep</h2>
+
+
+<a href="@Url.Action("GetTime","Sleeps")" id="postMePls">
+    <div id="card">
+        <div id="startTime" class="front circle">
+            <p id="saved-time" class="circle-text">Go to sleep</p>
+        </div>
+        <div id="stopTime" class="back circle">
+            <p id="time" class="circle-text"></p>
+        </div>
+    </div>
+</a>
+
+<div id="bla">
+    <p style="color:red">napis</p>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.flip.js"></script>
+
+    <script>
+        var h, m, s, cs, ms, countStarted, czas;
+        countStarted = false;
+        $("#card").flip();
+        frontOrBack('@Model.RememberTimer');
+      
+        function frontOrBack(rememberTimer) {
+
+            if (rememberTimer == 'True') {
+                $("#card").flip(true);
+                setTime('@Model.Hours', '@Model.Minutes', '@Model.Seconds');
+            }
+            else {
+                alert('resetuje');
+                resetTime();
+            }
+
+        }
+        function resetTime() {
+            czas = 0;
+            h = 0;
+            m = 0;
+            s = 0;
+            cs = 0;
+        }
+        function setTime(hh, mm, ss) {
+            czas = 0;
+            h = hh;
+            m = mm;
+            s = ss;
+            cs = 0;
+            refresh();
+            setInterval(count, 10);
+            countStarted = true;
+        }
+
+        function visibility() {
+            document.getElementById('card').style.visibility = "visible";
+        }
+
+        function count() {
+            cs++;
+
+            if (cs === 100) {
+                cs = 0;
+                s++;
+
+                if (s === 60) {
+                    s = 0;
+                    m++;
+
+                    if (m === 60) {
+                        m = 0;
+                        h++;
+                    }
+                }
+            }
+            refresh();
+        }
+
+        function refresh() {
+
+            czas = h + "h:" + m + "m:" + s + "s";
+            var wyswietl = czas + "<br/> Stop";
+            document.getElementById("time").innerHTML = wyswietl;
+            //$("stopTime").innerHTML("Hello world!");
+        }
+
+        function startCount() {
+            if (countStarted === false) {
+                countStarted = true;
+                visibility();
+                setInterval(count, 10);
+            }
+            resetTime();
+        }
+        function stopCount() {
+            document.getElementById("saved-time").innerHTML = "You slept:<br/> " + czas;
+            //resetTime();
+        }
+
+        document.getElementById('startTime').onclick = startCount;
+        document.getElementById('stopTime').onclick = stopCount;
+
+        $("#postMePls").click(function (e) {
+
+            e.preventDefault();
+            $.ajax({
+
+                url: $(this).attr("href"), // comma here instead of semicolon
+                success: function () {
+                    alert("my lovely js logic");  // or any other indication if you want to show
+                }
+
+            });
+
+        });
+    </script>
+}

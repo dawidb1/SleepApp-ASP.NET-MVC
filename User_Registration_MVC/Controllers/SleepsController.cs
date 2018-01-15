@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using User_Registration_MVC.Models;
+using User_Registration_MVC.Models.ViewModels;
 
 namespace User_Registration_MVC.Controllers
 {
@@ -22,7 +23,65 @@ namespace User_Registration_MVC.Controllers
             return View(sleep.ToList());
         }
 
+        [Authorize]
+        public ActionResult GoSleep()
+        {
+            var username = HttpContext.User.Identity.Name;
+            var user = db.User.Where(x => x.Username == username).FirstOrDefault();
+
+            if (user.SleepTemporary.Any())
+            {
+                var sTemp = user.SleepTemporary.LastOrDefault();
+                ReloadTimer reloadTimer;
+                if (!sTemp.StartSleep.Equals(DateTime.MinValue)) //jeśli jest wypełnione
+                {
+                    var amountOfSLeep = DateTime.Now - sTemp.StartSleep;
+                    reloadTimer = new ReloadTimer { RememberTimer = true, Hours = amountOfSLeep.Hours, Minutes = amountOfSLeep.Minutes, Seconds = amountOfSLeep.Seconds };
+                }
+                else
+                {
+                    reloadTimer = new ReloadTimer { RememberTimer = false };
+                }
+                return View(reloadTimer);
+            }
+            else throw new Exception();
+        }
+        public void GetTime()
+        {
+            var username = HttpContext.User.Identity.Name;
+            var user = db.User.Where(x => x.Username == username).FirstOrDefault();
+
+            if (user.SleepTemporary.Any())
+            {
+                var sTemp = user.SleepTemporary.LastOrDefault();
+                //validacja 24h
+
+                Sleep sleep = new Sleep(sTemp.StartSleep, DateTime.Now.ToLocalTime());
+                user.Sleep.Add(sleep);
+                db.SleepTemporary.Remove(sTemp);
+                //user.SleepTemporary.Remove(sTemp);
+            }
+            else
+            {
+                SleepTemporary st = new SleepTemporary();
+                st.StartSleep = DateTime.Now;
+                db.SleepTemporary.Add(st);
+
+                user.SleepTemporary.Add(st);
+            }
+            db.SaveChanges();
+
+
+            //SleepTime sleeptime = new SleepTime();
+            //if (sleeptime.StartSleep == sleeptime.EndSleep)
+            //{
+            //    EndSleep = DateTime.Now;
+            //}
+            //else StartSleep = DateTime.Now;
+        }
+
         // GET: Sleeps/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,6 +97,7 @@ namespace User_Registration_MVC.Controllers
         }
 
         // GET: Sleeps/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.UserId = new SelectList(db.User, "UserId", "Username");
@@ -74,6 +134,7 @@ namespace User_Registration_MVC.Controllers
         }
 
         // GET: Sleeps/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -118,6 +179,7 @@ namespace User_Registration_MVC.Controllers
         }
 
         // GET: Sleeps/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
