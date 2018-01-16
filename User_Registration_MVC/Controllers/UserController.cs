@@ -103,6 +103,14 @@ namespace User_Registration_MVC.Controllers
                     return View(user);
                 }
                 #endregion
+                #region //username is taken
+                bool isUsernameTaken = IsUsernameTaken(user.Username);
+                if (isUsernameTaken)
+                {
+                    ModelState.AddModelError("UsernameExist", "Username already exist");
+                    return View(user);
+                }
+                #endregion
 
                 #region //Generate activation code
                 user.ActivationCode = Guid.NewGuid();
@@ -174,6 +182,14 @@ namespace User_Registration_MVC.Controllers
             using (var db = new SleepLogAppEntities())
             {
                 return db.User.Any(x => x.Email == email);
+            }
+        }
+        [NonAction]
+        public bool IsUsernameTaken(string username)
+        {
+            using (var db = new SleepLogAppEntities())
+            {
+                return db.User.Any(x => x.Username == username);
             }
         }
         [NonAction]
