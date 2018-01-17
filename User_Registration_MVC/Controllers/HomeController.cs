@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using User_Registration_MVC.Models;
 using User_Registration_MVC.Models.ViewModels;
 using System.Security.Claims;
+using System.Collections.ObjectModel;
 
 namespace User_Registration_MVC.Controllers
 {
@@ -15,6 +16,7 @@ namespace User_Registration_MVC.Controllers
         {
             return View();
         }
+
         [HttpGet]
         [Authorize]
         public ActionResult Index()
@@ -26,8 +28,12 @@ namespace User_Registration_MVC.Controllers
             if(true)
             {
                 var db = new SleepLogAppEntities();
-                User user = db.User.First(u => u.Username == username);
-                return View(user);
+                if (db.User.Any(u => u.Username == username))
+                {
+                    User user = db.User.First(u => u.Username == username);
+                    return View(user);
+                }
+                else return RedirectToAction("Login", "User");
             }
 
             //return View();
@@ -40,16 +46,25 @@ namespace User_Registration_MVC.Controllers
 
             //int userId = (int)Session["userId"];
             string username = HttpContext.User.Identity.Name;
-            int userId = db.User.Where(x => x.Username == username).FirstOrDefault().UserId;
-            //if (userId != null)
+            
+            int? userId = db.User.Where(x => x.Username == username).FirstOrDefault().UserId;
+            if (userId != null)
             //if(true)
-            //{
-                var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).Take(7).ToList();
+            {
+                var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
+                
+                List<Sleep> sleepList = new List<Sleep>();
+                int LOGS_TO_STATS = 7;
+                for (int i = 1; i <= LOGS_TO_STATS; i++)
+                {
+                    sleepList.Add(sleeps[sleeps.Count - i]);
+                }
+                sleepList.Reverse();
 
                 List<ChartInfo> chartList = new List<ChartInfo>();
                 TimeSpan mean = new TimeSpan();
                 TimeSpan sum = new TimeSpan();
-                foreach (Sleep item in sleeps)
+                foreach (Sleep item in sleepList)
                 {
                     sum += (TimeSpan)item.AmountOfSleep;
                     chartList.Add(new ChartInfo(item.AmountOfSleep, item.StartSleep.Date));
@@ -61,8 +76,8 @@ namespace User_Registration_MVC.Controllers
 
                 ViewBag.Mean = meanString;
                 return View(chartList);
-            //}
-            //return RedirectToAction("Home", "Index");
+        }
+            return RedirectToAction("Login", "User");
         }
     }
 }
