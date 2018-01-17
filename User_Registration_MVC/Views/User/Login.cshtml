@@ -39,8 +39,10 @@
                     @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <p class="text-danger col-md-10">@ViewBag.Message</p>
         </div>
 
+       
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Login" class="btn btn-default" />

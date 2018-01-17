@@ -4,12 +4,6 @@
     @{
         ViewBag.Title = "Edit";
     }
-    @{
-        Layout = "../Shared/_Layout.cshtml";
-    }
-    @{
-        Html.RenderPartial("_HeaderNavBar");
-    }
 
     <h2>Edit</h2>
 
@@ -23,20 +17,10 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.SleepId)
 
-        @*<div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date datetimepicker1' id='datetimepicker2'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>*@
         <div class="form-group">
             @Html.LabelFor(model => model.StartSleep, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartSleep, new { htmlAttributes = new {  @class = "form-control input-group date datetimepicker1" } })
+                @Html.EditorFor(model => model.StartSleep, new { htmlAttributes = new { @class = "form-control input-group date datetimepicker1" } })
                 @Html.ValidationMessageFor(model => model.StartSleep, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,21 +33,19 @@
             </div>
         </div>
 
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.EveningRating, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EveningRating, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EveningRating, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.MorningRating, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MorningRating, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MorningRating, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EveningRating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EveningRating, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EveningRating, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -94,7 +76,7 @@
         }
 
         <div>
-            @Html.ActionLink("Back to List", "Index","Home")
+            @Html.ActionLink("Back to your logs", "Index","Home")
         </div>
 
 

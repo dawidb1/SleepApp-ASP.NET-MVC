@@ -3,7 +3,7 @@
     ViewBag.Title = "GoSLeep";
 
 }
-<link href="~/Content/Site.css" rel="stylesheet" />
+@*<link href="~/Content/Site.css" rel="stylesheet" />*@
 
 <h2>GoSleep</h2>
 
@@ -19,6 +19,11 @@
     </div>
 </a>
 
+<br/>
+<div>
+    @Html.ActionLink("Back to Your logs", "Index", "Home")
+</div>
+
 
 @section scripts{
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -29,7 +34,7 @@
         countStarted = false;
         $("#card").flip();
         frontOrBack('@Model.RememberTimer');
-      
+
         function frontOrBack(rememberTimer) {
 
             if (rememberTimer == 'True') {
@@ -101,6 +106,7 @@
         }
         function stopCount() {
             document.getElementById("saved-time").innerHTML = "You slept:<br/> " + czas;
+            alert("Your sleep was added to Your Logs!");
             //resetTime();
         }
 

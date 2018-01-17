@@ -56,9 +56,16 @@ namespace User_Registration_MVC.Controllers
             {
                 var sTemp = user.SleepTemporary.LastOrDefault();
                 //validacja 24h
+                TimeSpan hoursValidate = new TimeSpan(23, 59, 59);
+                TimeSpan timeSpanTemp = DateTime.Now - sTemp.StartSleep;
 
-                Sleep sleep = new Sleep(sTemp.StartSleep, DateTime.Now.ToLocalTime());
-                user.Sleep.Add(sleep);
+                if (timeSpanTemp<hoursValidate)
+                {
+                    Sleep sleep = new Sleep(sTemp.StartSleep, DateTime.Now.ToLocalTime());
+                    user.Sleep.Add(sleep);
+
+                    //przekierowanie do sleep edit z wypełnionym startSleep
+                }
                 db.SleepTemporary.Remove(sTemp);
                 //user.SleepTemporary.Remove(sTemp);
             }

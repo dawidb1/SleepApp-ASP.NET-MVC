@@ -31,7 +31,8 @@ namespace User_Registration_MVC.Controllers
                 var user = db.User.Where(x => x.Username == userLogin.Username).FirstOrDefault();
                 if (user!=null)
                 {
-                    if (string.Compare(Crypto.Hash(userLogin.Password),user.Password)==0)
+                    bool userAndPasswordMatch = string.Compare(Crypto.Hash(userLogin.Password), user.Password) == 0;
+                    if (userAndPasswordMatch)
                     {
                         int timeout = userLogin.RememberMe ? REMEMBER_ME_TIME : NOT_REMEMBER_ME_TIME;
                         var ticket = new FormsAuthenticationTicket(userLogin.Username, userLogin.RememberMe, timeout);
@@ -40,7 +41,7 @@ namespace User_Registration_MVC.Controllers
                         cookie.Expires = DateTime.Now.AddMinutes(timeout);
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
-                        Session["userId"] = user.UserId;
+                        //Session["userId"] = user.UserId;
 
                         if (Url.IsLocalUrl(returnUrl))
                         {
@@ -53,16 +54,17 @@ namespace User_Registration_MVC.Controllers
                     }
                     else
                     {
-                        Message = "Invalid credential provided";
+                        Message = "Username and password not match.";
+                        ModelState.AddModelError("UserValidation", "Username and password not match.");
                     }
                 }
                 else
                 {
-                    Message = "Invalid credential provided";
+                    Message = string.Format("We don't know username called {0}",userLogin.Username);
                 }
             }
 
-                ViewBag.Message = Message;
+            ViewBag.Message = Message;
             return View();
         }
 
@@ -121,10 +123,20 @@ namespace User_Registration_MVC.Controllers
                 user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword);
                 #endregion
 
-                #region //Save to db
+                #region //Save to db and initialize sleeps
                 using (var db = new SleepLogAppEntities())
                 {
                     db.User.Add(user);
+
+                    #region //sleep initializer
+                    var SleepList = SleepsInitializer.SleepsInitialize();
+                    foreach (Sleep sleep in SleepList)
+                    {
+                        sleep.SetAmountOfSleep(); //możnaby przerzucić do SleepInitializer
+                        user.Sleep.Add(sleep);
+                    }
+                    #endregion
+
                     db.SaveChanges();
                 }
                 #endregion
@@ -160,12 +172,12 @@ namespace User_Registration_MVC.Controllers
                     verifyUser.IsEmailVerified = true;
                     Status = true;
 
-                    #region //sleep initializer
-                    var SleepList = SleepsInitializer.SleepsInitialize();
-                    foreach (Sleep sleep in SleepList)
+                    #region //sleep deInitializer
+   
+                    for (int i = 0; i < verifyUser.Sleep.Count; i++)
                     {
-                        sleep.SetAmountOfSleep(); //możnaby przerzucić do SleepInitializer
-                        db.User.First(x => x.UserId == verifyUser.UserId).Sleep.Add(sleep);
+                        //verifyUser.Sleep.Remove(verifyUser.Sleep.ToList()[i]);
+                        db.Sleep.Remove(verifyUser.Sleep.ToList()[i]);
                     }
                     #endregion
 

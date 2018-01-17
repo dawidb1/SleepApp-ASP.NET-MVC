@@ -55,6 +55,7 @@ namespace User_Registration_MVC.Models
         [Range(typeof(int), "1", "10", ErrorMessage = "must be intiger from 0-10")]
         public Nullable<int> EveningRating { get; set; }
         [Display(Name = "Amount of Sleep")]
+        //[DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public Nullable<System.TimeSpan> AmountOfSleep { get; set; }
         [Display(Name ="Just a nap")]
         public bool QuickSleep { get; set; }

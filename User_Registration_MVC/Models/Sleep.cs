@@ -25,7 +25,5 @@ namespace User_Registration_MVC.Models
         public bool QuickSleep { get; set; }
     
         public virtual User User { get; set; }
-
-
     }
 }

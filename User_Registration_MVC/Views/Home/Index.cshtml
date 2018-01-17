@@ -10,81 +10,75 @@
     <title>Index</title>
 </head>
 <body>
-    @*@{
-        Html.RenderPartial("_HeaderNavBar");
-    }*@
-    @* Tutaj partialView by się przydał *@
+
+    @if (!Model.IsEmailVerified)
+    {
+        <h3 class="text-danger">
+            Nie zweryfikowałeś swojego maila. Dane aplikacji są wypełnione przykładowymi danymi.
+        </h3>
+    }
     @if (Model != null)
     {
 
         <h2>My Logs:</h2>
 
-        <h4>
-            @*@Html.ActionLink("Add sleep manually", "Create")*@
-        </h4>
         <table class="table">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Sleep.First().DayOfWeek)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Sleep.First().StartSleep)
+                    @Html.DisplayNameFor(model => model.Sleep.First().StartSleep) /<br />  @Html.DisplayNameFor(model => model.Sleep.First().EndSleep)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sleep.First().EndSleep)
-                </th>
+
                 <th>
                     @Html.DisplayNameFor(model => model.Sleep.First().AmountOfSleep)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Sleep.First().MorningRating)
+                    @Html.DisplayNameFor(model => model.Sleep.First().EveningRating) /<br /> @Html.DisplayNameFor(model => model.Sleep.First().MorningRating)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Sleep.First().EveningRating)
+                    More
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sleep.First().Note)
-                </th>
-                <th>properties</th>
             </tr>
 
             @* Tutaj raczej sortowania potrzeba *@
             @foreach (var sleep in Model.Sleep.Reverse())
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => sleep.StartSleep.DayOfWeek)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => sleep.StartSleep)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => sleep.EndSleep)
-                    </td>
-                    <td>
-                        @{
-                            TimeSpan ts = (TimeSpan)sleep.AmountOfSleep;
-                        }
-                        @Html.DisplayFor(modelItem => ts)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => sleep.MorningRating)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => sleep.EveningRating)
-                    </td>
-                    <td>
-                        <button id="Button1" type="button" class="button" onclick="func('@sleep.Note')">Read</button>
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => sleep.StartSleep.DayOfWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sleep.StartSleep) /<br /> @Html.DisplayFor(modelItem => sleep.EndSleep)
+            </td>
+            <td>
+                @{
+            TimeSpan ts = (TimeSpan)sleep.AmountOfSleep;
+            string tsString = string.Format("{0:00}h {1:00}m", ts.Hours, ts.Minutes);
+                }
 
-                        @* @Html.DisplayFor(modelItem => item.note)*@
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Sleeps", new { id = sleep.SleepId }, null) |
-                        @Html.ActionLink("Details", "Details", "Sleeps", new { id = sleep.SleepId }, null) |
-                        @Html.ActionLink("Delete", "Delete", "Sleeps", new { id = sleep.SleepId }, null)
-                    </td>
-                </tr>
-            }
+                @tsString
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sleep.EveningRating) /
+                @Html.DisplayFor(modelItem => sleep.MorningRating)
+
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Sleeps", new { id = sleep.SleepId }, new { @class = "button2" })
+                <br />
+                @if (sleep.Note != null)
+        {
+            <button id="Button1" type="button" class="button" onclick="func('@sleep.Note')">Note</button>
+}
+
+        @*@Html.ActionLink("Edit", "Edit", "Sleeps", new { id = sleep.SleepId }, null) |*@
+        @*@Html.ActionLink("Delete", "Delete", "Sleeps", new { id = sleep.SleepId }, null)*@
+            </td>
+        </tr>
+}
+
         </table>
         <script>
             function func(tekst) {
@@ -92,14 +86,6 @@
             }
         </script>
     }
-    @*@if (Model == null)
-    {
-        <h2>Witaj w aplikacji, która pomoże Ci zawładnąć nad twoim snem!</h2>
-        <h3>Zaloguj się aby kontynuować.</h3>
-    }*@
-
-    @*@Html.ActionLink("Sign Up", "Rejestration", "Login")
-        @Html.ActionLink("Sign In", "Login", "Login")*@
     @section scripts{
         }
 </body>
