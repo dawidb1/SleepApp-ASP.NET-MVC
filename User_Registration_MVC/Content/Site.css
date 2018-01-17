@@ -1,18 +1,16 @@
 ﻿body {
     padding-top: 0px;
     padding-bottom: 20px;
-    /*margin-left: 20px;
+    margin-left: 20px;
     margin-right: 20px;
-    padding-left: 15px;
-    padding-right: 15px;*/
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    margin-left:20px;
-    margin-right:20px;
+    margin-left: 20px;
+    /*margin-right: 20px;*/
     padding-left: 15px;
-    padding-right: 15px;
+    /*padding-right: 15px;*/
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -35,18 +33,12 @@ button {
     align-content: center;
     /*font-size: auto;*/
 }
-#bla{
-    width:50px;
-    height:50px;
-    background-color:blue;
-    color:red;
-}
 
 #card {
-    width: 400px;
-    height: 400px;
+    /*width: 400px;
+    height: 400px;*/
     text-align: center;
-    margin: 100px auto;
+    /*margin: 100px auto;*/
     /*position: relative;*/
 }
 /*#time {

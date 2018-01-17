@@ -1,8 +1,6 @@
 ﻿@using User_Registration_MVC.Models
 @model User_Registration_MVC.Models.User
-@{
-    Layout = "../Shared/_Layout.cshtml";
-}
+
 
 <!DOCTYPE html>
 
@@ -12,9 +10,9 @@
     <title>Index</title>
 </head>
 <body>
-    @{
+    @*@{
         Html.RenderPartial("_HeaderNavBar");
-    }
+    }*@
     @* Tutaj partialView by się przydał *@
     @if (Model != null)
     {
@@ -94,13 +92,12 @@
             }
         </script>
     }
-    @if (Model == null)
+    @*@if (Model == null)
     {
         <h2>Witaj w aplikacji, która pomoże Ci zawładnąć nad twoim snem!</h2>
         <h3>Zaloguj się aby kontynuować.</h3>
-    }
-    <div>
-    </div>
+    }*@
+
     @*@Html.ActionLink("Sign Up", "Rejestration", "Login")
         @Html.ActionLink("Sign In", "Login", "Login")*@
     @section scripts{

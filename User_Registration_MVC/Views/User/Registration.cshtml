@@ -3,12 +3,7 @@
 @{
     ViewBag.Title = "Registration";
 }
-@{
-    Layout = "../Shared/_Layout.cshtml";
-}
-@{
-    Html.RenderPartial("_HeaderNavBar", Model);
-}
+
 <h2>Registration</h2>
 
 @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))

@@ -8,10 +8,12 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @RenderBody()
-    @*<div class="container body-content">
-
-    </div>*@
+    @{
+        Html.RenderPartial("_HeaderNavBar");
+    }
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/moment")
