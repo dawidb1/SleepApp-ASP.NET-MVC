@@ -3,6 +3,9 @@
     padding-bottom: 20px;
     /*margin-left: 20px;
     margin-right: 20px;*/
+    /*background: linear-gradient(to right, rgba(54,255,125,0.2), rgba(255,136,15,0.1));*/
+    /*background: linear-gradient(to right, #43c6ac, #191654); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*background: linear-gradient(to right, #bbd2c5, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -49,7 +52,10 @@ a.button2 {
     display: inline-block;
     font-size: 16px;
 }
-
+.postMe{
+    width:400px;
+    height:400px
+}
 #card {
     width: 300px;
     height: 300px;
@@ -78,4 +84,8 @@ a.button2 {
     font-size:42px;
     /*line-height: 50px;*/
     /*height: 100px;*/
+}
+
+.btn {
+    margin: 10px 40px;
 }

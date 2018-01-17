@@ -5,7 +5,8 @@
 }
 @*<link href="~/Content/Site.css" rel="stylesheet" />*@
 
-<h2>GoSleep</h2>
+<h2>Your sleep time meter</h2>
+<hr/>
 
 
 <a href="@Url.Action("GetTime","Sleeps")" id="postMePls">
@@ -19,9 +20,11 @@
     </div>
 </a>
 
-<br/>
+<hr/>
 <div>
-    @Html.ActionLink("Back to Your logs", "Index", "Home")
+    <h3>
+        @Html.ActionLink("Back to Your logs", "Index", "Home")
+    </h3>
 </div>
 
 

@@ -49,16 +49,21 @@ namespace User_Registration_MVC.Controllers
             
             int? userId = db.User.Where(x => x.Username == username).FirstOrDefault().UserId;
             if (userId != null)
-            //if(true)
             {
                 var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
                 
                 List<Sleep> sleepList = new List<Sleep>();
                 int LOGS_TO_STATS = 7;
+
+                if (sleeps.Count<LOGS_TO_STATS)
+                {
+                    LOGS_TO_STATS = sleeps.Count;
+                }
                 for (int i = 1; i <= LOGS_TO_STATS; i++)
                 {
                     sleepList.Add(sleeps[sleeps.Count - i]);
                 }
+
                 sleepList.Reverse();
 
                 List<ChartInfo> chartList = new List<ChartInfo>();
