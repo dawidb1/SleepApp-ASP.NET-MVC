@@ -121,18 +121,22 @@ namespace User_Registration_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                TimeSpan hoursValidate = new TimeSpan(23, 59, 59);
+                TimeSpan timeSpanTemp = sleep.EndSleep - sleep.StartSleep;
+
+                if (Math.Abs(timeSpanTemp.Ticks) > hoursValidate.Ticks)
+                {
+                    ViewBag.Message = "Sen nie może trwać więcej niż 24 godziny, ani być ujemny.";
+                    return View();
+                }
+
                 var username = HttpContext.User.Identity.Name;
                 //var user = db.User .Select(x => x.Username == username);
                 //var user = db.User.
                 //sleep.UserId = ViewBag.UserId;
                 var user = db.User.Where(x => x.Username == username).FirstOrDefault();
-                sleep.User = user;
-                sleep.UserId = user.UserId;
+                user.Sleep.Add(new Sleep(sleep));
 
-                //db.Sleep.Add(new Sleep(sleep)); //MUST CHANGE DB TO COLAPSE IN CREATE?????
-                //db.Sleep.Add(sleep);
-                db.User.First(x => x.UserId == sleep.UserId).Sleep.Add(new Sleep(sleep));
-                //db.User.First(x => x.UserId == sleep.UserId).Sleep.Add(sleep);
                 db.SaveChanges();
                 return RedirectToAction("Index","Home");
             }
