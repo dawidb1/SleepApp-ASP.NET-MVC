@@ -27,7 +27,6 @@ namespace User_Registration_MVC.Controllers
             //int? id = (int?)Session["userId"];
             //int id = int.Parse(HttpContext.Session["userId"].ToString());
             string username = HttpContext.User.Identity.Name;
-            //if (id != null)
 
             var db = new SleepLogAppEntities();
             if (db.User.Any(u => u.Username == username))
