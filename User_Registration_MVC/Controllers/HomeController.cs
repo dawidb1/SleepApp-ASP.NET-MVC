@@ -21,23 +21,23 @@ namespace User_Registration_MVC.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            // Po nicku dużo wolniej niż po id, ale trzeba zastosować
+            //mechanizm Sesji albo wystarczy Viebag?
+
             //int? id = (int?)Session["userId"];
-            //   int id = int.Parse(HttpContext.Session["userId"].ToString());
+            //int id = int.Parse(HttpContext.Session["userId"].ToString());
             string username = HttpContext.User.Identity.Name;
             //if (id != null)
-            if(true)
-            {
-                var db = new SleepLogAppEntities();
-                if (db.User.Any(u => u.Username == username))
-                {
-                    User user = db.User.First(u => u.Username == username);
-                    return View(user);
-                }
-                else return RedirectToAction("Login", "User");
-            }
 
-            //return View();
+            var db = new SleepLogAppEntities();
+            if (db.User.Any(u => u.Username == username))
+            {
+                User user = db.User.First(u => u.Username == username);
+                return View(user);
+            }
+            else return RedirectToAction("Login", "User");
         }
+
         [Authorize]
         [HttpGet]
         public ActionResult Stats()
@@ -50,10 +50,10 @@ namespace User_Registration_MVC.Controllers
             int? userId = db.User.Where(x => x.Username == username).FirstOrDefault().UserId;
             if (userId != null)
             {
-                var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
-                
-                List<Sleep> sleepList = new List<Sleep>();
                 int LOGS_TO_STATS = 7;
+                List<Sleep> sleepList = new List<Sleep>();
+
+                var sleeps = db.Sleep.Where(sleep => sleep.UserId == userId).ToList();
 
                 if (sleeps.Count<LOGS_TO_STATS)
                 {

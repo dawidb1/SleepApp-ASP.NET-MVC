@@ -84,9 +84,12 @@ namespace User_Registration_MVC.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Exclude = "IsEmailVerified, LastLoginDate, ActivationCode, SleepTemporary, Sleep")] User user)
+        public ActionResult Registration(
+            [Bind(Exclude = "IsEmailVerified, LastLoginDate, ActivationCode, " +
+            "SleepTemporary, Sleep")] User user)
         {
             bool Status = false;
             string Message = string.Empty;

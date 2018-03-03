@@ -4,8 +4,6 @@
 
 <h2>See your last 7 Logs:</h2>
 
-@*<div style="margin: auto 200px">
-    </div>*@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8">
@@ -18,14 +16,9 @@
             <p>
                 Mean sleep time from your last 7 days is @ViewBag.Mean .
             </p>
-            @*<p>
-                    <a class="btn" href="#">View details »</a>
-                </p>*@
         </div>
     </div>
 </div>
-
-
 
 <script src="~/Scripts/Chart.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
@@ -73,16 +66,8 @@
         }
         function ticksToTimespan(ticks) {
             var seconds = ticks / 10000000;
-            //var hour = Math.floor(seconds / 3600);
-            //var minute = Math.floor((seconds / 60) % 60);
-            //var second = seconds % 60;
-
             var hour = seconds / 3600;
-
-            //var result = pad2(hour) + ':' + pad2(minute) + ':' + pad2(second);
-            var result = hour;
-            //alert(result);
-            return result;
+            
+            return hour;
         }
 </script>
-@*@Styles.Render("~/Content/css")*@

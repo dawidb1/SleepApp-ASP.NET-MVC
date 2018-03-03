@@ -254,7 +254,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SleepsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -298,24 +297,19 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Login\Registration.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Login\MyProfile.cshtml" />
     <Content Include="Views\Shared\_HeaderNavBar.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Login\Logout.cshtml" />
     <Content Include="Views\Home\Stats.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
     <Content Include="Views\User\VerifyAccount.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\Shared\LoginRegistrJavascript.cshtml" />
+    <Content Include="Bin1\LoginRegistrJavascript.cshtml" />
     <Content Include="Views\Sleeps\Create.cshtml" />
-    <Content Include="Views\Sleeps\Delete.cshtml" />
+    <Content Include="Bin1\Delete.cshtml" />
     <Content Include="Views\Sleeps\Details.cshtml" />
     <Content Include="Views\Sleeps\Edit.cshtml" />
-    <Content Include="Views\Home\DatePicker.cshtml" />
     <Content Include="Views\Sleeps\GoSleep.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -326,7 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Sample\" />
-    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

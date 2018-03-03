@@ -34,10 +34,15 @@ namespace User_Registration_MVC.Controllers
             {
                 var sTemp = user.SleepTemporary.LastOrDefault();
                 
+                //if start sleep time remembered
                 if (!sTemp.StartSleep.Equals(DateTime.MinValue)) //jeśli jest wypełnione
                 {
                     var amountOfSLeep = DateTime.Now - sTemp.StartSleep;
-                    reloadTimer = new ReloadTimer { RememberTimer = true, Hours = amountOfSLeep.Hours, Minutes = amountOfSLeep.Minutes, Seconds = amountOfSLeep.Seconds };
+                    reloadTimer = new ReloadTimer {
+                        RememberTimer = true,
+                        Hours = amountOfSLeep.Hours,
+                        Minutes = amountOfSLeep.Minutes,
+                        Seconds = amountOfSLeep.Seconds };
                 }
                 else
                 {
@@ -55,19 +60,17 @@ namespace User_Registration_MVC.Controllers
             if (user.SleepTemporary.Any())
             {
                 var sTemp = user.SleepTemporary.LastOrDefault();
-                //validacja 24h
-                TimeSpan hoursValidate = new TimeSpan(23, 59, 59);
+                //walidacja 24h
+                TimeSpan HOURS_VALIDATE = new TimeSpan(23, 59, 59);
                 TimeSpan timeSpanTemp = DateTime.Now - sTemp.StartSleep;
 
-                if (timeSpanTemp<hoursValidate)
+                if (timeSpanTemp<HOURS_VALIDATE)
                 {
                     Sleep sleep = new Sleep(sTemp.StartSleep, DateTime.Now.ToLocalTime());
                     user.Sleep.Add(sleep);
 
-                    //przekierowanie do sleep edit z wypełnionym startSleep
                 }
                 db.SleepTemporary.Remove(sTemp);
-                //user.SleepTemporary.Remove(sTemp);
             }
             else
             {
@@ -78,14 +81,6 @@ namespace User_Registration_MVC.Controllers
                 user.SleepTemporary.Add(st);
             }
             db.SaveChanges();
-
-
-            //SleepTime sleeptime = new SleepTime();
-            //if (sleeptime.StartSleep == sleeptime.EndSleep)
-            //{
-            //    EndSleep = DateTime.Now;
-            //}
-            //else StartSleep = DateTime.Now;
         }
 
         // GET: Sleeps/Details/5
@@ -117,7 +112,9 @@ namespace User_Registration_MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SleepId,StartSleep,EndSleep,MorningRating,EveningRating,Note,AmountOfSleep,UserId,QuickSleep")] Sleep sleep)
+        public ActionResult Create([Bind(
+            Include = "SleepId,StartSleep,EndSleep,MorningRating," +
+            "EveningRating,Note,AmountOfSleep,UserId,QuickSleep")] Sleep sleep)
         {
             if (ModelState.IsValid)
             {
@@ -126,14 +123,13 @@ namespace User_Registration_MVC.Controllers
 
                 if (Math.Abs(timeSpanTemp.Ticks) > hoursValidate.Ticks)
                 {
-                    ViewBag.Message = "Sen nie może trwać więcej niż 24 godziny, ani być ujemny.";
+                    ViewBag.Message = "Sen nie może trwać więcej niż 24 godziny, " +
+                        "ani być ujemny.";
                     return View();
                 }
 
                 var username = HttpContext.User.Identity.Name;
-                //var user = db.User .Select(x => x.Username == username);
-                //var user = db.User.
-                //sleep.UserId = ViewBag.UserId;
+         
                 var user = db.User.Where(x => x.Username == username).FirstOrDefault();
                 user.Sleep.Add(new Sleep(sleep));
 
@@ -167,7 +163,8 @@ namespace User_Registration_MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SleepId,StartSleep,EndSleep,MorningRating,EveningRating,Note,QuickSleep")] Sleep sleep)
+        public ActionResult Edit([Bind(Include = "SleepId,StartSleep,EndSleep," +
+            "MorningRating,EveningRating,Note,QuickSleep")] Sleep sleep)
         {
             if (ModelState.IsValid)
             {
@@ -179,7 +176,6 @@ namespace User_Registration_MVC.Controllers
                 dbSleep.EveningRating = sleep.EveningRating;
                 dbSleep.Note = sleep.Note;
                 dbSleep.QuickSleep = sleep.QuickSleep;
-                //jakaś walidacja żeby maks 24 godziny
                 dbSleep.SetAmountOfSleep();
 
                 db.Entry(dbSleep).State = EntityState.Modified;
@@ -217,6 +213,8 @@ namespace User_Registration_MVC.Controllers
             return RedirectToAction("Index","Home");
         }
 
+
+        //co to jest?
         protected override void Dispose(bool disposing)
         {
             if (disposing)
