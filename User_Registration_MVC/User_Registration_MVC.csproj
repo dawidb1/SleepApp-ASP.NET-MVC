@@ -307,7 +307,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Bin1\LoginRegistrJavascript.cshtml" />
     <Content Include="Views\Sleeps\Create.cshtml" />
-    <Content Include="Bin1\Delete.cshtml" />
+    <Content Include="Views\Sleeps\Delete.cshtml" />
     <Content Include="Views\Sleeps\Details.cshtml" />
     <Content Include="Views\Sleeps\Edit.cshtml" />
     <Content Include="Views\Sleeps\GoSleep.cshtml" />
